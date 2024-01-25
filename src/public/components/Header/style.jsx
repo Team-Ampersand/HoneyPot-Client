@@ -50,7 +50,7 @@ export const SearchIcon = styled.div`
   right: 96px;
 `;
 
-export const profile = styled.div`
+export const Profile = styled.div`
   width: 50px;
   height: 50px;
 `;
