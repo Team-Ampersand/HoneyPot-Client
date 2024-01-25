@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './style';
 import { Input } from './Input/style';
-import { Button } from '../../public/button/style';
+import { Button } from '../../public/components/button/style';
 
 const Signin = () => {
   return (
