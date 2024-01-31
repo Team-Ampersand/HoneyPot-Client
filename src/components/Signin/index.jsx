@@ -2,8 +2,10 @@ import React from 'react';
 import * as S from './style';
 import { Input } from './Input/style';
 import { Button } from '../../public/components/button/style';
+import { useNavigate } from 'react-router-dom';
 
 const Signin = () => {
+  const navigate = useNavigate();
   return (
     <S.Background>
       <S.SigninContainer>
@@ -55,7 +57,7 @@ const Signin = () => {
             </S.IconDiv3>
           </S.InputContainer>
           <Button>로그인</Button>
-          <S.SignupText>아직 회원이 아니신가요?</S.SignupText>
+          <S.SignupText onClick={() => navigate("/Signup")}>아직 회원이 아니신가요?</S.SignupText>
         </S.ComponentContainer>
       </S.SigninContainer>
     </S.Background>

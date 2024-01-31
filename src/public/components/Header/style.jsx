@@ -11,6 +11,7 @@ export const HeaderContainer = styled.div`
 export const Logo = styled.div`
   align-items: center;
   display: flex;
+  cursor: pointer;
 `;
 
 export const SearchProfileContainer = styled.div`
