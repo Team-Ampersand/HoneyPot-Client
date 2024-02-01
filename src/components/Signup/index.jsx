@@ -14,28 +14,28 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [checkPw, setCheckPw] = useState('');
 
-  const nameChange = (e) => {
-    setName(e.target.value);
-  };
+    const onChangeInput = (e) => {     
+      const {
+        target: { name, value },  
+      } = e;
+      if (name === 'name') {
+        setName(value);
+      } else if (name === 'email') {
+        setEmail(value);
+      } else if (name === 'password'){
+        setPassword(value);
+      } else if (name === 'checkPw'){
+        setCheckPw(value);
+      }
+      
+    };
 
-  const emailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const pwChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const checkPwChange = (e) => {
-    setCheckPw(e.target.value);
-  } 
-
-  const SignupButton = async () => {
+  const handleSignup = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_SIGNIN_API}/signup`, {
-        name: name,
-        password: password,
-        email: email,
+      await axios.post(`${process.env.REACT_APP_CLIENT_API}/signup`, {
+        name,
+        password,
+        email,
       });
       navigate('/Signin');
     } catch (error) {
@@ -52,32 +52,32 @@ const Signup = () => {
 
   return (
     <S.Background>
-      <S.SigninContainer>
+      <S.SignupContainer>
         <S.ComponentsContainer>
           <S.Title>SIGN UP</S.Title>
           <S.InputContainer>
             <S.InputContainer>
               <S.DataContainer>
                 <S.InputText>닉네임</S.InputText>
-                <Input onChange={nameChange} value={name} placeholder="닉네임을 입력해주세요." />
+                <Input type='text' name="name" onChange={onChangeInput} value={name} placeholder="닉네임을 입력해주세요." />
               </S.DataContainer>
               <S.DataContainer>
                 <S.InputText>이메일</S.InputText>
-                <Input type='email' onChange={emailChange} value={email}  placeholder="아이디를 입력해주세요." />
+                <Input type='email' name="email" onChange={onChangeInput} value={email}  placeholder="아이디를 입력해주세요." />
               </S.DataContainer>
               <S.DataContainer>
                 <S.InputText>비밀번호</S.InputText>
-                <Input type='password' onChange={pwChange} value={password} placeholder="비밀번호를 입력해주세요." />
+                <Input type='password' name="password" onChange={onChangeInput} value={password} placeholder="비밀번호를 입력해주세요." />
               </S.DataContainer>
               <S.DataContainer>
                 <S.InputText>비밀번호 확인</S.InputText>
-                <Input type='password' onChange={checkPwChange} value={checkPw} placeholder="비밀번호 입력해주세요." />
+                <Input type='password' name="checkPw" onChange={onChangeInput} value={checkPw} placeholder="비밀번호 입력해주세요." />
               </S.DataContainer>
             </S.InputContainer>
           </S.InputContainer>
-          <Button onClick={SignupButton}>회원가입</Button>
+          <Button onClick={handleSignup}>회원가입</Button>
         </S.ComponentsContainer>
-      </S.SigninContainer>
+      </S.SignupContainer>
     </S.Background>
   );
 };

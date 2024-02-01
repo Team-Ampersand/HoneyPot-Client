@@ -9,7 +9,7 @@ export const Background = styled.div`
   overflow-y: hidden;
 `;
 
-export const SigninContainer = styled.div`
+export const SignupContainer = styled.div`
   width: 500px;
   height: 650px;
   flex-shrink: 0;
