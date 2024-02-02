@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
-  /* margin-top: 16px; */
   width: 388px;
   height: 60px;
 
@@ -15,7 +14,7 @@ export const Button = styled.button`
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
-  line-height: 20px; /* 111.111% */
+  line-height: 20px;
   cursor: pointer;
 
   &:focus {
