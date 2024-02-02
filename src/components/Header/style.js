@@ -1,9 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const HeaderContainer = styled.div`
   width: 100%;
   height: 80px;
-
   display: flex;
   justify-content: space-around;
   background: #fff;
@@ -31,9 +30,7 @@ export const Search = styled.input`
   border-radius: 30px;
   background: #ebebeb;
   border: none;
-
   color: #999;
-
   font-family: Pretendard;
   font-size: 20px;
   font-style: normal;

@@ -1,18 +1,19 @@
-import React from 'react';
-import * as S from './style';
-import Header from '../../public/components/Header';
-import AddBoldStyleText from '../../asset/svg/AddBoldStyleText';
-import AddH1Text from '../../asset/svg/AddH1Text';
-import AddH2Text from '../../asset/svg/AddH2Text';
-import AddH3Text from '../../asset/svg/AddH3Text';
-import AddH4Text from '../../asset/svg/AddH4Text';
-import OptionLine from '../../asset/svg/OptionLine';
-import AddItalicText from '../../asset/svg/AddItalicText';
-import TextMiddleline from '../../asset/svg/AddTextMiddleline';
-import AddLinkText from '../../asset/svg/AddLinkText';
-import AddImg from '../../asset/svg/AddImg';
-import AddDevText from '../../asset/svg/AddDevText';
-
+import React from "react";
+import * as S from "./style";
+import Header from "../Header";
+import {
+  AddH1Text,
+  AddH2Text,
+  AddH3Text,
+  AddH4Text,
+  AddBoldStyleText,
+  AddItalicText,
+  AddTextMiddleline,
+  OptionLine,
+  AddLinkText,
+  AddImg,
+  AddDevText,
+} from "../../asset";
 const Writing = () => {
   return (
     <S.Background>
@@ -41,7 +42,7 @@ const Writing = () => {
             <S.TextOption>
               <AddBoldStyleText />
               <AddItalicText />
-              <TextMiddleline />
+              <AddTextMiddleline />
             </S.TextOption>
             <OptionLine />
             <S.AddOption>

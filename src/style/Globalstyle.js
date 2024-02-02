@@ -1,9 +1,10 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
-const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle`
 	body{
         padding: 0;
         margin: 0;
+        box-sizing: border-box;
     };
 
     @font-face {
@@ -87,4 +88,3 @@ const GlobalStyles = createGlobalStyle`
     url('/fonts/woff/Pretendard-Thin.woff') format('woff');
 }
 `;
-export default GlobalStyles;
