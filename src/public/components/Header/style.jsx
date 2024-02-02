@@ -6,6 +6,7 @@ export const HeaderContainer = styled.div`
 
   display: flex;
   justify-content: space-around;
+  background: #fff;
 `;
 
 export const Logo = styled.div`

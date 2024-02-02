@@ -4,6 +4,7 @@ import Signin from './components/Signin';
 import Signup from './components/Signup';
 import Main from './components/Main';
 import Onbording from './components/Onbording';
+import Writing from './components/Writing';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/Onbording" element={<Onbording />} />
           <Route path="/Signin" element={<Signin />} />
           <Route path="/Signup" element={<Signup />} />
+          <Route path="/Writing" element={<Writing/>} />
         </Routes>
       </Router>
     </div>
