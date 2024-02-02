@@ -1,22 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import GlobalStyles from './public/Globalstyle';
-import Signin from './components/Signin';
-import Signup from './components/Signup';
-import Main from './components/Main';
-import Onbording from './components/Onbording';
-import Writing from './components/Writing';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Main, Onboarding, SignIn, SignUp, Writing } from "./components";
+import { GlobalStyles } from "./style/Globalstyle";
 
 function App() {
   return (
-    <div className="App">
-      <GlobalStyles/>
+    <div>
+      <GlobalStyles />
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/Onbording" element={<Onbording />} />
-          <Route path="/Signin" element={<Signin />} />
-          <Route path="/Signup" element={<Signup />} />
-          <Route path="/Writing" element={<Writing/>} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="./writing" element={<Writing />} />
+          <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
       </Router>
     </div>

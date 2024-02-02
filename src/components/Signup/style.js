@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Background = styled.div`
   height: 100vh;
@@ -35,8 +35,6 @@ export const Title = styled.p`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  /* margin-top: 40px;
-  margin-bottom: 16px; */
   margin: 0;
 `;
 
@@ -46,20 +44,40 @@ export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;
-`
+`;
 
 export const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`
+`;
+
+export const SignUpInput = styled.input`
+  width: 353px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(241, 241, 245, 0.8);
+  border: none;
+  padding-left: 15px;
+  color: #707070;
+  font-family: Pretendard;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  &:focus {
+    outline: none;
+  }
+`;
 
 export const InputText = styled.p`
-color: #212121;
-font-family: Pretendard;
-font-size: 15px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-margin: 0;
-`
+  color: #212121;
+  font-family: Pretendard;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+`;

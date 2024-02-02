@@ -1,10 +1,10 @@
-import React from 'react';
-import Header from '../../public/components/Header';
+import React from "react";
+import Header from "../Header";
 
 const Main = () => {
   return (
     <div>
-      <Header/>
+      <Header />
     </div>
   );
 };
