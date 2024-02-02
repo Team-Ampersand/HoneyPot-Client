@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './style';
 import Header from '../../public/components/Header';
-import BoldStyleText from '../../asset/svg/BoldStyleText';
+import AddBoldStyleText from '../../asset/svg/AddBoldStyleText';
 import AddH1Text from '../../asset/svg/AddH1Text';
 import AddH2Text from '../../asset/svg/AddH2Text';
 import AddH3Text from '../../asset/svg/AddH3Text';
@@ -39,7 +39,7 @@ const Writing = () => {
             </S.HeaderOption>
             <OptionLine />
             <S.TextOption>
-              <BoldStyleText />
+              <AddBoldStyleText />
               <AddItalicText />
               <TextMiddleline />
             </S.TextOption>
