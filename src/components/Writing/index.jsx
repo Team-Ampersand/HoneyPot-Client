@@ -19,18 +19,18 @@ const Writing = () => {
       <Header />
       <S.WritingContainer>
         <S.HeaderContainer>
-          <S.categoryContainer>
-            <S.categoryTitle>카테고리</S.categoryTitle>
-            <S.categorySelect>
-              <S.categoryOption>뷰티 / 패션</S.categoryOption>
-              <S.categoryOption>책</S.categoryOption>
-              <S.categoryOption>OTT</S.categoryOption>
-              <S.categoryOption>생활</S.categoryOption>
-              <S.categoryOption>건강</S.categoryOption>
-              <S.categoryOption>여행</S.categoryOption>
-            </S.categorySelect>
-          </S.categoryContainer>
-          <S.optionContainer>
+          <S.CategoryContainer>
+            <S.CategoryTitle>카테고리</S.CategoryTitle>
+            <S.CategorySelect>
+              <S.CategoryOption>뷰티 / 패션</S.CategoryOption>
+              <S.CategoryOption>책</S.CategoryOption>
+              <S.CategoryOption>OTT</S.CategoryOption>
+              <S.CategoryOption>생활</S.CategoryOption>
+              <S.CategoryOption>건강</S.CategoryOption>
+              <S.CategoryOption>여행</S.CategoryOption>
+            </S.CategorySelect>
+          </S.CategoryContainer>
+          <S.OptionContainer>
             <S.HeaderOption>
               <H1 />
               <H2 />
@@ -49,7 +49,7 @@ const Writing = () => {
               <Img />
               <Dev />
             </S.AddOption>
-          </S.optionContainer>
+          </S.OptionContainer>
         </S.HeaderContainer>
         <S.Title placeholder="제목을 입력하세요." />
         <S.TextDetail placeholder="내용을 작성해주세요."></S.TextDetail>

@@ -28,20 +28,20 @@ export const HeaderContainer = styled.div`
   gap: 146px;
 `;
 
-export const categoryContainer = styled.div`
+export const CategoryContainer = styled.div`
   display: flex;
   gap: 42px;
   align-items: center;
 `;
 
-export const categoryTitle = styled.p`
+export const CategoryTitle = styled.p`
   font-family: pretendard;
   color: #707070;
   font-size: 20px;
   font-weight: 500;
 `;
 
-export const categorySelect = styled.select`
+export const CategorySelect = styled.select`
   cursor: pointer;
   background: #f1f1f5;
   border: none;
@@ -53,7 +53,7 @@ export const categorySelect = styled.select`
   font-family: pretendard;
   font-weight: 500;
 `;
-export const categoryOption = styled.option`
+export const CategoryOption = styled.option`
   background: #f1f1f5;
   border: none;
   width: 134px;
@@ -65,7 +65,7 @@ export const categoryOption = styled.option`
   font-weight: 500;
 `;
 
-export const optionContainer = styled.div`
+export const OptionContainer = styled.div`
   background-color: #f1f1f5;
   width: 356px;
   height: 26px;
