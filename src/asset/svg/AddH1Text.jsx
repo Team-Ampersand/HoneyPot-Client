@@ -1,6 +1,6 @@
 import React from 'react';
 
-const H1 = () => {
+const AddH1Text = () => {
   return (
     <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -11,4 +11,4 @@ const H1 = () => {
   );
 };
 
-export default H1;
+export default AddH1Text;

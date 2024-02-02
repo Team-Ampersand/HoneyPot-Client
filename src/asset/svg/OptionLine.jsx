@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Line = () => {
+const OptionLine = () => {
   return (
     <svg width="1" height="26" viewBox="0 0 1 26" fill="none" xmlns="http://www.w3.org/2000/svg">
       <line x1="0.5" x2="0.5" y2="26" stroke="#707070" />
@@ -8,4 +8,4 @@ const Line = () => {
   );
 };
 
-export default Line;
+export default OptionLine;

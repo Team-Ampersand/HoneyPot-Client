@@ -1,17 +1,17 @@
 import React from 'react';
 import * as S from './style';
 import Header from '../../public/components/Header';
-import Border from '../../asset/svg/border';
-import H1 from '../../asset/svg/H1';
-import H2 from '../../asset/svg/H2';
-import H3 from '../../asset/svg/H3';
-import H4 from '../../asset/svg/H4';
-import Line from '../../asset/svg/Line';
-import TE from '../../asset/svg/TE';
-import Textmiddleline from '../../asset/svg/Textmiddleline';
-import Link from '../../asset/svg/Link';
-import Img from '../../asset/svg/Img';
-import Dev from '../../asset/svg/Dev';
+import BoldStyleText from '../../asset/svg/BoldStyleText';
+import AddH1Text from '../../asset/svg/AddH1Text';
+import AddH2Text from '../../asset/svg/AddH2Text';
+import AddH3Text from '../../asset/svg/AddH3Text';
+import AddH4Text from '../../asset/svg/AddH4Text';
+import OptionLine from '../../asset/svg/OptionLine';
+import AddItalicText from '../../asset/svg/AddItalicText';
+import TextMiddleline from '../../asset/svg/AddTextMiddleline';
+import AddLinkText from '../../asset/svg/AddLinkText';
+import AddImg from '../../asset/svg/AddImg';
+import AddDevText from '../../asset/svg/AddDevText';
 
 const Writing = () => {
   return (
@@ -32,22 +32,22 @@ const Writing = () => {
           </S.CategoryContainer>
           <S.OptionContainer>
             <S.HeaderOption>
-              <H1 />
-              <H2 />
-              <H3 />
-              <H4 />
+              <AddH1Text />
+              <AddH2Text />
+              <AddH3Text />
+              <AddH4Text />
             </S.HeaderOption>
-            <Line />
+            <OptionLine />
             <S.TextOption>
-              <Border />
-              <TE />
-              <Textmiddleline />
+              <BoldStyleText />
+              <AddItalicText />
+              <TextMiddleline />
             </S.TextOption>
-            <Line />
+            <OptionLine />
             <S.AddOption>
-              <Link />
-              <Img />
-              <Dev />
+              <AddLinkText />
+              <AddImg />
+              <AddDevText />
             </S.AddOption>
           </S.OptionContainer>
         </S.FunctionContainer>

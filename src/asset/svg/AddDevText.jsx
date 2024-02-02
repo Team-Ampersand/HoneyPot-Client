@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Dev = () => {
+const AddDevText = () => {
   return (
     <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -11,4 +11,4 @@ const Dev = () => {
   );
 };
 
-export default Dev;
+export default AddDevText;
