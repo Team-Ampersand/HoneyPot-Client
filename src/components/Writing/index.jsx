@@ -18,7 +18,7 @@ const Writing = () => {
     <S.Background>
       <Header />
       <S.WritingContainer>
-        <S.HeaderContainer>
+        <S.FunctionContainer>
           <S.CategoryContainer>
             <S.CategoryTitle>카테고리</S.CategoryTitle>
             <S.CategorySelect>
@@ -50,7 +50,7 @@ const Writing = () => {
               <Dev />
             </S.AddOption>
           </S.OptionContainer>
-        </S.HeaderContainer>
+        </S.FunctionContainer>
         <S.Title placeholder="제목을 입력하세요." />
         <S.TextDetail placeholder="내용을 작성해주세요."></S.TextDetail>
         <S.ButtonContainer>

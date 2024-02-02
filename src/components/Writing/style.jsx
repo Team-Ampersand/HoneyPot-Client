@@ -22,7 +22,7 @@ export const WritingContainer = styled.div`
   position: relative;
 `;
 
-export const HeaderContainer = styled.div`
+export const FunctionContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 146px;
