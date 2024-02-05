@@ -17,7 +17,6 @@ export const PostBackground = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
   margin-bottom: 50px;
 `;
 
