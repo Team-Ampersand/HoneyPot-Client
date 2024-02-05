@@ -1,6 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Main, Onboarding, SignIn, SignUp, Writing } from "./components";
-import { GlobalStyles } from "./style/Globalstyle";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  Main,
+  Onboarding,
+  SignIn,
+  SignUp,
+  Writing,
+  Posting,
+} from './components';
+import { GlobalStyles } from './style/Globalstyle';
 
 function App() {
   return (
@@ -8,12 +15,13 @@ function App() {
       <GlobalStyles />
       <Router>
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="./writing" element={<Writing />} />
-          <Route path="*" element={<h1>Not Found</h1>} />
+          <Route path='/' element={<Main />} />
+          <Route path='/onboarding' element={<Onboarding />} />
+          <Route path='/signin' element={<SignIn />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/writing' element={<Writing />} />
+          <Route path='/posting' element={<Posting />} />
+          <Route path='*' element={<h1>Not Found</h1>} />
         </Routes>
       </Router>
     </div>
