@@ -175,47 +175,21 @@ const Writing = () => {
         </S.FunctionContainer>
         {category === '책' || category === 'OTT' ? (
           <S.FieldContainer>
-            {category === '책' && (
-              <>
-                <S.FieldText onClick={() => handleBookClick('시')} style={{ color: selectedField === '시' ? '#ffc300' : 'inherit' }}>
-                  시
+            {category === '책' &&
+              ['시', '문학', '비문학', '전공', '기타'].map((item, index) => (
+                <S.FieldText key={index} onClick={() => handleBookClick(item)} style={{ color: selectedField === item ? '#ffc300' : 'inherit' }}>
+                  {item}
                 </S.FieldText>
-                <S.FieldText onClick={() => handleBookClick('문학')} style={{ color: selectedField === '문학' ? '#ffc300' : 'inherit' }}>
-                  문학
+              ))}
+            {category === 'OTT' &&
+              ['Wavve', 'TVING', 'WATCHA', 'Disney+', 'Netflix'].map((item, index) => (
+                <S.FieldText key={index} onClick={() => handleOTTClick(item)} style={{ color: selectedField === item ? '#ffc300' : 'inherit' }}>
+                  {item}
                 </S.FieldText>
-                <S.FieldText onClick={() => handleBookClick('비문학')} style={{ color: selectedField === '비문학' ? '#ffc300' : 'inherit' }}>
-                  비문학
-                </S.FieldText>
-                <S.FieldText onClick={() => handleBookClick('전공')} style={{ color: selectedField === '전공' ? '#ffc300' : 'inherit' }}>
-                  전공
-                </S.FieldText>
-                <S.FieldText onClick={() => handleBookClick('기타')} style={{ color: selectedField === '기타' ? '#ffc300' : 'inherit' }}>
-                  기타
-                </S.FieldText>
-              </>
-            )}
-
-            {category === 'OTT' && (
-              <>
-                <S.FieldText onClick={() => handleOTTClick('Wavve')} style={{ color: selectedField === 'Wavve' ? '#ffc300' : 'inherit' }}>
-                  Wavve
-                </S.FieldText>
-                <S.FieldText onClick={() => handleOTTClick('TVING')} style={{ color: selectedField === 'TVING' ? '#ffc300' : 'inherit' }}>
-                  TVING
-                </S.FieldText>
-                <S.FieldText onClick={() => handleOTTClick('WATCHA')} style={{ color: selectedField === 'WATCHA' ? '#ffc300' : 'inherit' }}>
-                  WATCHA
-                </S.FieldText>
-                <S.FieldText onClick={() => handleOTTClick('Disney+')} style={{ color: selectedField === 'Disney+' ? '#ffc300' : 'inherit' }}>
-                  Disney+
-                </S.FieldText>
-                <S.FieldText onClick={() => handleOTTClick('Netflix')} style={{ color: selectedField === 'Netflix' ? '#ffc300' : 'inherit' }}>
-                  Netflix
-                </S.FieldText>
-              </>
-            )}
+              ))}
           </S.FieldContainer>
         ) : null}
+
         <S.Title type="text" name="title" value={title} onChange={onChangeInput} placeholder="제목을 입력하세요." />
         <S.TextDetail name="content" value={content} onChange={onChangeInput} placeholder="내용을 작성해주세요."></S.TextDetail>
         <S.ButtonContainer>
