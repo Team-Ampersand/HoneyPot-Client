@@ -41,9 +41,7 @@ const Writing = () => {
     }
   };
 
-  const selectCategory = (e) => {
-    setCategory(e.target.value);
-  };
+  const selectCategory = (e) => setCategory(e.target.value);
 
   const handleBookClick = (field) => {
     setSelectedField(field);
