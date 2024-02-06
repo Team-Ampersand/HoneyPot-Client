@@ -56,7 +56,7 @@ const Writing = () => {
   };
 
   const handleFileChange = (e) => {
-    const files = e.target.files[0];
+    const files = e.target.files;
     setImages([...files]);
   };
 
