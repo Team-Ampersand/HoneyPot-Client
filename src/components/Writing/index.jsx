@@ -23,7 +23,7 @@ const Writing = () => {
   const [category, setCategory] = useState('뷰티/패션');
   const [OTT, setOTT] = useState('');
   const [book, setBook] = useState('');
-  const [images, setImages] = useState('');
+  const [images, setImages] = useState([]);
   const [previewImage, setPreviewImage] = useState('');
 
   const [selectedField, setSelectedField] = useState(null);
