@@ -169,7 +169,7 @@ const Writing = () => {
                 <AddImg />
                 <input onClick={handleFileChange} type="file" accept="image/png, image/jpeg, image/jpg" style={{ display: 'none' }} />
               </S.OptionLabel>
-              <S.OptionLabel onClick={() => handleOption('DevText')}>
+              <S.OptionLabel onChange={() => handleOption('DevText')}>
                 <AddDevText />
               </S.OptionLabel>
             </S.AddOption>
