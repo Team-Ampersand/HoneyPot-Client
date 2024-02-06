@@ -28,6 +28,29 @@ export const FunctionContainer = styled.div`
   gap: 146px;
 `;
 
+export const FieldContainer = styled.div`
+  background: var(--Gray-White, #fff);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+  width: 784px;
+  height: 54px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+`;
+
+export const FieldText = styled.div`
+  font-family: pretendard;
+  font-size: 20px;
+  font-weight: 500;
+  color: #999;
+
+  &:hover {
+    color: #ffc300;
+    cursor: pointer;
+  }
+`;
+
 export const CategoryContainer = styled.div`
   display: flex;
   gap: 42px;
@@ -76,6 +99,12 @@ export const OptionContainer = styled.div`
   gap: 15px;
   border-radius: 5px;
 `;
+
+export const OptionLabel = styled.label`
+  &:hover{
+    cursor: pointer;
+  }
+`
 
 export const HeaderOption = styled.div`
   display: flex;
