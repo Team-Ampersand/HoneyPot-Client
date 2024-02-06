@@ -107,7 +107,6 @@ const Writing = () => {
 
     const optionText = optionMappings[option];
 
-    if (optionText) {
       const newText =
         content +
         (option === 'LinkText'
@@ -116,7 +115,6 @@ const Writing = () => {
             '텍스트' +
             (option === 'BoldText' || option === 'ItalicText' || option === 'MiddlelineText' || option === 'DevText' ? optionText : ''));
       setContent(newText);
-    }
   };
 
   return (
