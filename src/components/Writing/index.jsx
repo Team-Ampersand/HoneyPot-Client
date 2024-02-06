@@ -57,7 +57,7 @@ const Writing = () => {
 
   const handleFileChange = (e) => {
     const files = e.target.files;
-    setImages([...files]);
+    setImages((imgs) => [...imgs, files]);
   };
 
   const handleRegistration = () => {
@@ -107,14 +107,12 @@ const Writing = () => {
 
     const optionText = optionMappings[option];
 
-      const newText =
-        content +
-        (option === 'LinkText'
-          ? optionText
-          : optionText +
-            '텍스트' +
-            (option === 'BoldText' || option === 'ItalicText' || option === 'MiddlelineText' || option === 'DevText' ? optionText : ''));
-      setContent(newText);
+    const newText =
+      content +
+      (option === 'LinkText'
+        ? optionText
+        : optionText + '텍스트' + (option === 'BoldText' || option === 'ItalicText' || option === 'MiddlelineText' || option === 'DevText' ? optionText : ''));
+    setContent(newText);
   };
 
   return (
