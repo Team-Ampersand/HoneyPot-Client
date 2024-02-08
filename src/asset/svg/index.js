@@ -16,3 +16,4 @@ export { default as AddLinkText } from './AddLinkText';
 export { default as AddImg } from './AddImg';
 export { default as AddDevText } from './AddDevText';
 export { default as AddReply } from './AddReply';
+export { default as ThumbnailImg } from './ThumbnailImg';

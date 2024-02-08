@@ -6,6 +6,7 @@ import {
   SignUp,
   Writing,
   Posting,
+  Thumbnail
 } from './components';
 import { GlobalStyles } from './style/Globalstyle';
 
@@ -20,6 +21,7 @@ function App() {
           <Route path='/signin' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/writing' element={<Writing />} />
+          <Route path='/thumbnail' element={<Thumbnail />} />
           <Route path='/posting' element={<Posting />} />
           <Route path='*' element={<h1>Not Found</h1>} />
         </Routes>

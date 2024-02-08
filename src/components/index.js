@@ -6,3 +6,4 @@ export { default as SignIn } from './SignIn';
 export { default as SignUp } from './SignUp';
 export { default as Writing } from './Writing';
 export { default as Posting } from './Posting';
+export { default as Thumbnail } from './Thumbnail';
