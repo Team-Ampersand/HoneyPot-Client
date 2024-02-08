@@ -41,7 +41,7 @@ export const Text = styled.p`
   margin: 0;
 `;
 
-export const uploadImgContainer = styled.div`
+export const UploadImgContainer = styled.div`
   width: 500px;
   height: 300px;
   background-color: #f1f1f5;

@@ -12,9 +12,9 @@ const Thumbnail = () => {
           <S.TextContainer>
             <S.Text>썸네일 업로드</S.Text>
           </S.TextContainer>
-          <S.uploadImgContainer>
+          <S.UploadImgContainer>
             <ThumbnailImg />
-          </S.uploadImgContainer>
+          </S.UploadImgContainer>
           <S.ButtonContainer>
             <S.SubmitButton>등록하기</S.SubmitButton>
           </S.ButtonContainer>
