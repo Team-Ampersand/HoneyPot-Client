@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './style';
 import Header from '../Header';
-import ThumbnailImg from '../../asset/svg/ThumbnailImg';
+import { ThumbnailImg } from '../../asset';
 
 const Thumbnail = () => {
   return (
