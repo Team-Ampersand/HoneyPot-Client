@@ -41,13 +41,17 @@ export const Text = styled.p`
   margin: 0;
 `;
 
-export const UploadImgContainer = styled.div`
+export const UploadImgContainer = styled.label`
   width: 500px;
   height: 300px;
   background-color: #f1f1f5;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const ButtonContainer = styled.div`
