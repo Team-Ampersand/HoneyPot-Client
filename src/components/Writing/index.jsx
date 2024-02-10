@@ -76,7 +76,7 @@ const Writing = () => {
         },
       })
       .then((response) => {
-        navigate('/');
+        navigate('/thumbnail');
       })
       .catch((error) => {
         // Handle errors
