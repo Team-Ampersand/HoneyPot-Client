@@ -71,7 +71,7 @@ const SignUp = () => {
               </S.DataContainer>
             </S.InputContainer>
           </S.InputContainer>
-          <Button clickFn={() => handleSignup()} text="회원가입"></Button>
+          <Button clickFn={() => handleSignup()} text="회원가입" />
         </S.ComponentsContainer>
       </S.SignupContainer>
     </S.Background>
