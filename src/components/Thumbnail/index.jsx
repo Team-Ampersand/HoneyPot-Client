@@ -4,6 +4,7 @@ import Header from '../Header';
 import { ThumbnailImg } from '../../asset';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import instance from '../../apis/refresh';
 
 const Thumbnail = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Thumbnail = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_CLIENT_API}/previewImage`, {
+      await instance.post(`/previewImage`, {
         previewImage: thumbnail,
       });
       navigate('/');
