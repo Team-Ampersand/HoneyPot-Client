@@ -63,7 +63,7 @@ const TokenManager = () => {
     removeStorage('refreshTokenExpiresIn');
   };
 
-  const reissueToken = async ({ refreshToken }) => {
+  const reissueToken = async ( refreshToken ) => {
     try {
       const { data } = await axios.patch(
         '/auth',
@@ -88,6 +88,7 @@ const TokenManager = () => {
   };
 
   return {
+    grantType,
     accessToken,
     refreshToken,
     accessTokenExpiresIn,
