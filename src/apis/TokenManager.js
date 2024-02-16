@@ -7,6 +7,7 @@ const BASE_URL = `${process.env.REACT_APP_CLIENT_API}`;
 
 const TokenManager = () => {
   const navigate = useNavigate()
+  const [grantType, setGrantType] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [accessTokenExpiresIn, setAccessTokenExpiresIn] = useState(null);
@@ -36,11 +37,13 @@ const TokenManager = () => {
   };
 
   const setTokens = (tokens) => {
+    setGrantType(tokens.grantType);
     setAccessToken(tokens.accessToken);
     setRefreshToken(tokens.refreshToken);
     setAccessTokenExpiresIn(tokens.accessTokenExpiresIn);
     setRefreshTokenExpiresIn(tokens.refreshTokenExpiresIn);
 
+    setStorage('grantType', tokens.grantType);
     setStorage('accessToken', tokens.accessToken);
     setStorage('refreshToken', tokens.refreshToken);
     setStorage('accessTokenExpiresIn', tokens.accessTokenExpiresIn);
