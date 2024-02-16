@@ -9,11 +9,11 @@ const instance = axios.create({
   instance.interceptors.request.use(async(config) => {
     const tokenManager = new TokenManager()
     const accessTokenIsValid = tokenManager.validateToken(
-      tokenManager.accessExpiredAt,
+      tokenManager.accessTokenExpiresIn,
       tokenManager.accessToken
     )
     const refreshTokenIsValid = tokenManager.validateToken(
-      tokenManager.refreshExpiredAt,
+      tokenManager.refreshTokenExpiresIn,
       tokenManager.refreshToken
     )
   
@@ -23,7 +23,7 @@ const instance = axios.create({
     } else if (!accessTokenIsValid && !refreshTokenIsValid)
       tokenManager.removeTokens()
   
-    config.headers['refreshToken'] = tokenManager.accessToken
+    config.headers['Authorization'] = tokenManager.accessToken
       ? `Bearer ${tokenManager.accessToken}`
       : undefined
   
