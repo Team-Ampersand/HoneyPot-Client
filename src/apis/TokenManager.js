@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { getStorage, setStorage, removeStorage } from '../utils/Storages';
 
 const BASE_URL = `${process.env.REACT_APP_CLIENT_API}`;
 
@@ -30,10 +29,10 @@ const TokenManager = () => {
 
   const initToken = () => {
     if (typeof window === 'undefined') return;
-    setAccessToken(getStorage('accessToken'));
-    setRefreshToken(getStorage('refreshToken'));
-    setAccessTokenExpiresIn(getStorage('accessTokenExpiresIn'));
-    setRefreshTokenExpiresIn(getStorage('refreshTokenExpiresIn'));
+    setAccessToken(localStorage.getItem('accessToken'));
+    setAccessToken(localStorage.getItem('refreshToken'));
+    setAccessToken(localStorage.getItem('accessTokenExpiresIn'));
+    setAccessToken(localStorage.getItem('refreshTokenExpiresIn'));
   };
 
   const setTokens = (tokens) => {
@@ -43,24 +42,26 @@ const TokenManager = () => {
     setAccessTokenExpiresIn(tokens.accessTokenExpiresIn);
     setRefreshTokenExpiresIn(tokens.refreshTokenExpiresIn);
 
-    setStorage('grantType', tokens.grantType);
-    setStorage('accessToken', tokens.accessToken);
-    setStorage('refreshToken', tokens.refreshToken);
-    setStorage('accessTokenExpiresIn', tokens.accessTokenExpiresIn);
-    setStorage('refreshTokenExpiresIn', tokens.refreshTokenExpiresIn);
+    localStorage.setItem('grantType', tokens.grantType)
+    localStorage.setItem('accessToken', tokens.accessToken)
+    localStorage.setItem('refreshToken', tokens.refreshToken)
+    localStorage.setItem('accessTokenExpiresIn', tokens.accessTokenExpiresIn)
+    localStorage.setItem('refreshTokenExpiresIn', tokens.refreshTokenExpiresIn)
   };
 
   const removeTokens = () => {
     if (typeof window === 'undefined') return;
+    setGrantType(null);
     setAccessToken(null);
     setRefreshToken(null);
     setAccessTokenExpiresIn(null);
     setRefreshTokenExpiresIn(null);
 
-    removeStorage('accessToken');
-    removeStorage('refreshToken');
-    removeStorage('accessTokenExpiresIn');
-    removeStorage('refreshTokenExpiresIn');
+    localStorage.removeItem('grantType')
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('accessTokenExpiresIn')
+    localStorage.removeItem('refreshTokenExpiresIn')
   };
 
   const reissueToken = async ( refreshToken ) => {
