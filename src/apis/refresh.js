@@ -6,30 +6,22 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-  instance.interceptors.request.use(async(config) => {
-    const tokenManager = new TokenManager()
-    const accessTokenIsValid = tokenManager.validateToken(
-      tokenManager.accessTokenExpiresIn,
-      tokenManager.accessToken
-    )
-    const refreshTokenIsValid = tokenManager.validateToken(
-      tokenManager.refreshTokenExpiresIn,
-      tokenManager.refreshToken
-    )
-  
-    if (!accessTokenIsValid && refreshTokenIsValid) {
-      await tokenManager.reissueToken({ refreshToken: tokenManager.refreshToken })
-      tokenManager.initToken()
-    } else if (!accessTokenIsValid && !refreshTokenIsValid)
-      tokenManager.removeTokens()
-  
-    config.headers['Authorization'] = tokenManager.accessToken
-      ? `Bearer ${tokenManager.accessToken}`
-      : undefined
-  
-    return config
-  
-  });
+instance.interceptors.request.use(async (config) => {
+  const tokenManager = new TokenManager();
+  const accessTokenIsValid = tokenManager.validateToken(tokenManager.accessTokenExpiresIn, tokenManager.accessToken);
+  const refreshTokenIsValid = tokenManager.validateToken(tokenManager.refreshTokenExpiresIn, tokenManager.refreshToken);
 
-  export default instance
+  if (!accessTokenIsValid && refreshTokenIsValid) {
+    await tokenManager.reissueToken({ refreshToken: tokenManager.refreshToken });
+    tokenManager.initToken();
+  } else if (!accessTokenIsValid && !refreshTokenIsValid) {
+    tokenManager.removeTokens();
+    window.location.href = '/signin';
+  }
 
+  config.headers['Authorization'] = tokenManager.accessToken ? `Bearer ${tokenManager.accessToken}` : undefined;
+
+  return config;
+});
+
+export default instance;
