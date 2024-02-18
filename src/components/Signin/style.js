@@ -21,11 +21,11 @@ export const SigninContainer = styled.div`
 `;
 
 export const ComponentContainer = styled.div`
-    display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 40px;
-`
+`;
 
 export const InputContainer = styled.div`
   display: flex;
@@ -74,6 +74,10 @@ export const IconDiv3 = styled.div`
   position: absolute;
   top: 107px;
   right: 14px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 export const Mail = styled.p`
   color: #707070;

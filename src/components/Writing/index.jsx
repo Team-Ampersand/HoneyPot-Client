@@ -16,6 +16,7 @@ import {
   AddImg,
   AddDevText,
 } from '../../asset';
+import instance from '../../apis/refresh';
 
 const Writing = () => {
   const [title, setTitle] = useState('');
@@ -69,8 +70,8 @@ const Writing = () => {
       formData.append(`images[${index}]`, image);
     });
 
-    axios
-      .post(`${process.env.REACT_APP_SIGNIN_API}/letter/write`, formData, {
+    instance
+      .post(`/letter/write`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
