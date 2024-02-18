@@ -29,10 +29,11 @@ const TokenManager = () => {
 
   const initToken = () => {
     if (typeof window === 'undefined') return;
+    setGrantType(localStorage.getItem('grantType'));
     setAccessToken(localStorage.getItem('accessToken'));
-    setAccessToken(localStorage.getItem('refreshToken'));
-    setAccessToken(localStorage.getItem('accessTokenExpiresIn'));
-    setAccessToken(localStorage.getItem('refreshTokenExpiresIn'));
+    setRefreshToken(localStorage.getItem('refreshToken'));
+    setAccessTokenExpiresIn(localStorage.getItem('accessTokenExpiresIn'));
+    setRefreshTokenExpiresIn(localStorage.getItem('refreshTokenExpiresIn'));
   };
 
   const setTokens = (tokens) => {
