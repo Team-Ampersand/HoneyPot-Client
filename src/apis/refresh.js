@@ -2,7 +2,7 @@ import axios from 'axios';
 import TokenManager from './TokenManager';
 
 const instance = axios.create({
-  baseURL: `${process.env.REACT_APP_CLIENT_API}`,
+  baseURL: process.env.REACT_APP_CLIENT_API,
   withCredentials: true,
 });
 
