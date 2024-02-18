@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../common';
 import { EmailIcon, LockIcon, ShowIcon } from '../../asset';
 import instance from '../../apis/refresh';
+import TokenManager from '../../apis/TokenManager';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -35,11 +36,7 @@ const SignIn = () => {
         username,
         password,
       });
-      localStorage.setItem('grantType', data.grantType);
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
-      localStorage.setItem('accessTokenExpiresIn', data.accessTokenExpiresIn);
-      localStorage.setItem('refreshTokenExpiresIn', data.refreshTokenExpiresIn);
+      TokenManager.setTokens(data);
       navigate.push('/');
     } catch (error) {
       if (error.response && error.response.status === 400) {
