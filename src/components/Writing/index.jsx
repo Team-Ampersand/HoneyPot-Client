@@ -71,7 +71,7 @@ const Writing = () => {
     });
 
     instance
-      .post(`/letter/write`, formData, {
+      .post(`/post/write`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

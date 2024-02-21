@@ -32,7 +32,7 @@ const SignIn = () => {
 
   const handleLogin = async () => {
     try {
-      const { data } = await instance.post('/login', {
+      const { data } = await instance.post('/auth/login', {
         username,
         password,
       });

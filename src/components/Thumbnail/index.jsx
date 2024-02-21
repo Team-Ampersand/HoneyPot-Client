@@ -17,7 +17,7 @@ const Thumbnail = () => {
 
   const handleSubmit = async () => {
     try {
-      await instance.post(`/previewImage`, {
+      await instance.post(`/post/previewImage`, {
         previewImage: thumbnail,
       });
       navigate('/');

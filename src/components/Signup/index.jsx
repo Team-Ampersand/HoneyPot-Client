@@ -29,19 +29,19 @@ const SignUp = () => {
 
   const handleSignup = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_CLIENT_API}/signup`, {
+      await axios.post(`${process.env.REACT_APP_CLIENT_API}/auth/join`, {
         password,
         username,
-        nickname
+        nickname,
       });
       navigate('/signin');
     } catch (error) {
       if (password !== checkPw) {
         alert('비밀번호가 일치하지 않습니다.');
-      } else if (error.response && error.response.status === 500) {
-        alert('중복된 아이디나 이름이 있습니다.');
-      } else {
-        alert('회원가입에 실패했습니다.');
+      } else if (error.response && error.response.status === 400) {
+        alert('아이디 비번이 잘못 되었습니다.');
+      } else if (error.response && error.response.status === 409) {
+        alert('이미 존재하는 아이디입니다.');
       }
     }
   };
