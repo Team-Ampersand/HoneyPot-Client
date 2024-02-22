@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import * as S from './style';
 import Header from '../Header';
 import { ThumbnailImg } from '../../asset';
-import axios from 'axios';
 import { useNavigate } from 'react-router';
 import instance from '../../apis/refresh';
 

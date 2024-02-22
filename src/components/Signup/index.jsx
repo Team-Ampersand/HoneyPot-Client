@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Button from '../common/Auth/Button';
 import * as S from './style';
+import instance from '../../apis/refresh';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const SignUp = () => {
 
   const handleSignup = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_CLIENT_API}/auth/join`, {
+      await instance.post('/auth/join', {
         password,
         username,
         nickname,

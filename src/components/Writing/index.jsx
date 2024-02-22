@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import axios from 'axios';
 import * as S from './style';
 import Header from '../Header';
 import {
@@ -25,7 +24,6 @@ const Writing = () => {
   const [OTT, setOTT] = useState('');
   const [book, setBook] = useState('');
   const [images, setImages] = useState([]);
-  const [previewImage, setPreviewImage] = useState('');
 
   const [selectedField, setSelectedField] = useState(null);
 
