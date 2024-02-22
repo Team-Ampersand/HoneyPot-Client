@@ -63,7 +63,7 @@ class TokenManager {
     localStorage.removeItem('refreshTokenExpiresIn');
   }
 
-  async reissueToken({ refreshToken }) {
+  async reissueToken( refreshToken ) {
     try {
       const { data } = await axios.patch(
         '/auth',
