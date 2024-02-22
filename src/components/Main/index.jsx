@@ -141,7 +141,7 @@ const Main = () => {
                   <S.ProfileImage>
                     <ProfileIcon />
                   </S.ProfileImage>
-                  <S.CommentAuthorName>류지민</S.CommentAuthorName>
+                  <S.PostAuthorName>류지민</S.PostAuthorName>
                 </S.ProfileContainer>
                 <S.PostTextContainer>
                   <S.PostTitle>요즘은 제주가 최고</S.PostTitle>
@@ -175,7 +175,7 @@ const Main = () => {
                   <S.ProfileImage>
                     <ProfileIcon />
                   </S.ProfileImage>
-                  <S.CommentAuthorName>류지민</S.CommentAuthorName>
+                  <S.PostAuthorName>류지민</S.PostAuthorName>
                 </S.ProfileContainer>
                 <S.PostTextContainer>
                   <S.PostTitle>요즘은 제주가 최고</S.PostTitle>

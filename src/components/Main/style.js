@@ -214,7 +214,7 @@ export const ProfileImage = styled.div`
   height: 40px;
 `;
 
-export const CommentAuthorName = styled.span`
+export const PostAuthorName = styled.span`
   flex-grow: 0;
   flex-shrink: 0;
   font-family: Pretendard;
