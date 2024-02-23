@@ -37,9 +37,7 @@ const SignIn = () => {
         username,
         password,
       });
-      console.log(1);
       tokenManager.setTokens(data);
-      console.log(2);
       navigate('/');
     } catch (error) {
       if (error.response && error.response.status === 400) {
