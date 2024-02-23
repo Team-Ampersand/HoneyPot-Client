@@ -14,7 +14,7 @@ instance.interceptors.request.use(async (config) => {
   if (config.url.includes('signin') || config.url.includes('signup')) 
     return
   else if (!accessTokenIsValid && refreshTokenIsValid) {
-    await tokenManager.reissueToken({ refreshToken: tokenManager.refreshToken });
+    await tokenManager.reissueToken(tokenManager.refreshToken)
     tokenManager.initToken();
 } else if (!accessTokenIsValid && !refreshTokenIsValid) {
     tokenManager.removeTokens();
