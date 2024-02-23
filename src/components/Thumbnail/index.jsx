@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import * as S from './style';
 import Header from '../Header';
 import { ThumbnailImg } from '../../asset';
-import axios from 'axios';
 import { useNavigate } from 'react-router';
 import instance from '../../apis/refresh';
 
@@ -17,7 +16,7 @@ const Thumbnail = () => {
 
   const handleSubmit = async () => {
     try {
-      await instance.post(`/previewImage`, {
+      await instance.post(`/post/previewImage`, {
         previewImage: thumbnail,
       });
       navigate('/');

@@ -8,6 +8,7 @@ import TokenManager from '../../apis/TokenManager';
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const tokenManager = new TokenManager()
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -32,12 +33,12 @@ const SignIn = () => {
 
   const handleLogin = async () => {
     try {
-      const { data } = await instance.post('/login', {
+      const { data } = await instance.post('/auth/login', {
         username,
         password,
       });
-      TokenManager.setTokens(data);
-      navigate.push('/');
+      tokenManager.setTokens(data);
+      navigate('/');
     } catch (error) {
       if (error.response && error.response.status === 400) {
         alert('올바른 비밀번호를 입력해주세요.');

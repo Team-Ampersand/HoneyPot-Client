@@ -1,71 +1,69 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
 
 const BASE_URL = `${process.env.REACT_APP_CLIENT_API}`;
+class TokenManager {
+  _grantType = null;
+  _accessToken = null;
+  _refreshToken = null;
+  _accessTokenExpiresIn = null;
+  _refreshTokenExpiresIn = null;
 
-const TokenManager = () => {
-  const navigate = useNavigate()
-  const [grantType, setGrantType] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
-  const [accessTokenExpiresIn, setAccessTokenExpiresIn] = useState(null);
-  const [refreshTokenExpiresIn, setRefreshTokenExpiresIn] = useState(null);
+  constructor() {
+    this.initToken();
+  }
 
-  useEffect(() => {
-    initToken();
-  }, []);
-
-  const validateToken = (expiredString, token) => {
+  validateToken(expiredString, token) {
     if (!expiredString || !token) return false;
-    return calculateMinutes(expiredString, 1) >= new Date();
-  };
 
-  const calculateMinutes = (currentDate, addMinute) => {
+    return this.calculateMinutes(expiredString, 1) >= new Date();
+  }
+
+  calculateMinutes(currentDate, addMinute) {
     const expiredAt = currentDate ? new Date(currentDate) : new Date();
     expiredAt.setMinutes(expiredAt.getMinutes() - addMinute);
+
     return expiredAt;
-  };
+  }
 
-  const initToken = () => {
+  initToken() {
     if (typeof window === 'undefined') return;
-    setGrantType(localStorage.getItem('grantType'));
-    setAccessToken(localStorage.getItem('accessToken'));
-    setRefreshToken(localStorage.getItem('refreshToken'));
-    setAccessTokenExpiresIn(localStorage.getItem('accessTokenExpiresIn'));
-    setRefreshTokenExpiresIn(localStorage.getItem('refreshTokenExpiresIn'));
-  };
+    this._grantType = localStorage.getItem('grantType');
+    this._accessToken = localStorage.getItem('accessToken');
+    this._refreshToken = localStorage.getItem('refreshToken');
+    this._accessTokenExpiresIn = localStorage.getItem('accessTokenExpiresIn');
+    this._refreshTokenExpiresIn = localStorage.getItem('refreshTokenExpiresIn');
+  }
 
-  const setTokens = (tokens) => {
-    setGrantType(tokens.grantType);
-    setAccessToken(tokens.accessToken);
-    setRefreshToken(tokens.refreshToken);
-    setAccessTokenExpiresIn(tokens.accessTokenExpiresIn);
-    setRefreshTokenExpiresIn(tokens.refreshTokenExpiresIn);
+  setTokens(tokens) {
+    this._grantType = tokens.grantType;
+    this._accessToken = tokens.accessToken;
+    this._refreshToken = tokens.refreshToken;
+    this._accessTokenExpiresIn = tokens.accessTokenExpiresIn;
+    this._refreshTokenExpiresIn = tokens.refreshTokenExpiresIn;
 
-    localStorage.setItem('grantType', tokens.grantType)
-    localStorage.setItem('accessToken', tokens.accessToken)
-    localStorage.setItem('refreshToken', tokens.refreshToken)
-    localStorage.setItem('accessTokenExpiresIn', tokens.accessTokenExpiresIn)
-    localStorage.setItem('refreshTokenExpiresIn', tokens.refreshTokenExpiresIn)
-  };
+    localStorage.setItem('grantType', tokens.grantType);
+    localStorage.setItem('accessToken', tokens.accessToken);
+    localStorage.setItem('refreshToken', tokens.refreshToken);
+    localStorage.setItem('accessTokenExpiresIn', tokens.accessTokenExpiresIn);
+    localStorage.setItem('refreshTokenExpiresIn', tokens.refreshTokenExpiresIn);
+  }
 
-  const removeTokens = () => {
+  removeTokens() {
     if (typeof window === 'undefined') return;
-    setGrantType(null);
-    setAccessToken(null);
-    setRefreshToken(null);
-    setAccessTokenExpiresIn(null);
-    setRefreshTokenExpiresIn(null);
+    this._grantType = null;
+    this._accessToken = null;
+    this._refreshToken = null;
+    this._accessTokenExpiresIn = null;
+    this._refreshTokenExpiresIn = null;
 
-    localStorage.removeItem('grantType')
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    localStorage.removeItem('accessTokenExpiresIn')
-    localStorage.removeItem('refreshTokenExpiresIn')
-  };
+    localStorage.removeItem('grantType');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('accessTokenExpiresIn');
+    localStorage.removeItem('refreshTokenExpiresIn');
+  }
 
-  const reissueToken = async ( refreshToken ) => {
+  async reissueToken( refreshToken ) {
     try {
       const { data } = await axios.patch(
         '/auth',
@@ -74,34 +72,40 @@ const TokenManager = () => {
           baseURL: BASE_URL,
           withCredentials: true,
           headers: {
-            refreshToken: refreshToken && `Bearer ${refreshToken}`,
+            RefreshToken: this.refreshToken && `Bearer ${refreshToken}`,
           },
         }
       );
 
-      setTokens(data);
+      this.setTokens(data);
 
       return true;
     } catch (error) {
-      removeTokens();
-      navigate('/');
+      this.removeTokens();
+      window.location.href = '/';
       return false;
     }
-  };
+  }
 
-  return {
-    grantType,
-    accessToken,
-    refreshToken,
-    accessTokenExpiresIn,
-    refreshTokenExpiresIn,
-    validateToken,
-    calculateMinutes,
-    initToken,
-    setTokens,
-    removeTokens,
-    reissueToken,
-  };
-};
+  get grantType() {
+    return this._grantType;
+  }
+
+  get accessToken() {
+    return this._accessToken;
+  }
+
+  get refreshToken() {
+    return this._refreshToken;
+  }
+
+  get accessTokenExpiresIn() {
+    return this._accessTokenExpiresIn;
+  }
+
+  get refreshTokenExpiresIn() {
+    return this._refreshTokenExpiresIn;
+  }
+}
 
 export default TokenManager;
