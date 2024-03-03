@@ -4,7 +4,7 @@ import { HeaderLogo, Logout, MyPageUser, ProfileIcon, SearchIcon } from '../../a
 import * as S from './style';
 import HeaderSeeMore from '../../asset/svg/HeaderSeeMore';
 import instance from '../../apis/refresh';
-import TokenManager from '../../apis/TokenManager';
+import { TokenManager } from '../../apis';
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);

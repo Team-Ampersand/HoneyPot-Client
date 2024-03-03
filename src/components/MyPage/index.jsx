@@ -47,7 +47,8 @@ const MyPage = () => {
                 </S.DivideContainer>
               </S.LikeCommentContainer>
             </S.PostContainer>
-            <S.PostThumbnail src={Dolphin} />
+            {/* <S.PostThumbnail src={Dolphin} /> */}
+            <S.PostThumbnail src={posts.preview || Dolphin} />
           </S.PostBackground>
         ))}
       </S.BodyContainer>
