@@ -7,14 +7,14 @@ import instance from '../../apis/refresh';
 import TokenManager from '../../apis/TokenManager';
 
 const MyPage = () => {
-  const [post, setPost] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   const tokenManager = new TokenManager();
   const token = tokenManager.accessToken;
-  
+
   useEffect(() => {
     try {
-      instance.get('/user').then((res) => setPost(res.data.infoPosts));
+      instance.get('/user').then((res) => setPosts(res.data.infoPosts));
     } catch (e) {
       console.error(e);
     }
@@ -25,29 +25,29 @@ const MyPage = () => {
       <Header />
       <S.UserContainer>
         <MyPageProfile />
-        <S.UserName>{post.length > 0 && post[0].author}</S.UserName>
+        <S.UserName>{posts.length > 0 && posts[0].author}</S.UserName>
       </S.UserContainer>
       <S.BodyContainer>
         <S.BodyTitle>내가 작성한 글</S.BodyTitle>
-        {post.map((post) => (
-          <S.PostBackground key={post.id}>
+        {posts.map((posts) => (
+          <S.PostBackground key={posts.id}>
             <S.PostContainer>
               <S.ProfileContainer>
                 <Profile />
-                <S.PostAuthorName>{post.author}</S.PostAuthorName>
+                <S.PostAuthorName>{posts.author}</S.PostAuthorName>
               </S.ProfileContainer>
               <S.PostTextContainer>
-                <S.PostTitle>{post.title}</S.PostTitle>
-                <S.PostContent>{post.content}</S.PostContent>
+                <S.PostTitle>{posts.title}</S.PostTitle>
+                <S.PostContent>{posts.content}</S.PostContent>
               </S.PostTextContainer>
               <S.LikeCommentContainer>
                 <S.DivideContainer>
                   <CommentIcon />
-                  <S.PostCountText>{post.comments}</S.PostCountText>
+                  <S.PostCountText>{posts.comments}</S.PostCountText>
                 </S.DivideContainer>
                 <S.DivideContainer>
                   <LikeCountIcon />
-                  <S.PostCountText>{post.likes}</S.PostCountText>
+                  <S.PostCountText>{posts.likes}</S.PostCountText>
                 </S.DivideContainer>
               </S.LikeCommentContainer>
             </S.PostContainer>
