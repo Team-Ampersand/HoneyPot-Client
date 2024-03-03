@@ -12,19 +12,6 @@ class TokenManager {
     this.initToken();
   }
 
-  // validateToken(expiredString, token) {
-  //   if (!expiredString || !token) return false;
-
-  //   return this.calculateMinutes(expiredString, 1) >= new Date();
-  // }
-
-  // calculateMinutes(currentDate, addMinute) {
-  //   const expiredAt = currentDate ? new Date(currentDate) : new Date();
-  //   expiredAt.setMinutes(expiredAt.getMinutes() - addMinute);
-
-  //   return expiredAt;
-  // }
-
   validateToken(expiredString, token) {
     if (!expiredString || !token) return false;
   
