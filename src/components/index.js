@@ -7,3 +7,4 @@ export { default as SignUp } from './SignUp';
 export { default as Writing } from './Writing';
 export { default as Posting } from './Posting';
 export { default as Thumbnail } from './Thumbnail';
+export { default as Mypage } from './MyPage';

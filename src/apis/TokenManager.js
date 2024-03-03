@@ -12,18 +12,32 @@ class TokenManager {
     this.initToken();
   }
 
+  // validateToken(expiredString, token) {
+  //   if (!expiredString || !token) return false;
+
+  //   return this.calculateMinutes(expiredString, 1) >= new Date();
+  // }
+
+  // calculateMinutes(currentDate, addMinute) {
+  //   const expiredAt = currentDate ? new Date(currentDate) : new Date();
+  //   expiredAt.setMinutes(expiredAt.getMinutes() - addMinute);
+
+  //   return expiredAt;
+  // }
+
   validateToken(expiredString, token) {
     if (!expiredString || !token) return false;
-
-    return this.calculateMinutes(expiredString, 1) >= new Date();
+  
+    return this.calculateSeconds(expiredString, 1)>= new Date();
   }
-
-  calculateMinutes(currentDate, addMinute) {
-    const expiredAt = currentDate ? new Date(currentDate) : new Date();
-    expiredAt.setMinutes(expiredAt.getMinutes() - addMinute);
-
+  
+  calculateSeconds(expiredDate, addSecond) {
+    const expiredAt = expiredDate? new Date(expiredDate) : new Date();
+    expiredAt.setSeconds(expiredAt.getSeconds() + addSecond);
+  
     return expiredAt;
   }
+  
 
   initToken() {
     if (typeof window === 'undefined') return;
