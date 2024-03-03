@@ -9,11 +9,16 @@ const MyPage = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    try {
-      instance.get('/user').then((res) => setPosts(res.data.infoPosts));
-    } catch (e) {
-      console.error(e);
-    }
+    const fetchData = async () => {
+      try {
+        const response = await instance.get('/user');
+        setPosts(response.data.infoPosts);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
   }, []);
 
   return (
