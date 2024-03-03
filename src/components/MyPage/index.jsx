@@ -4,13 +4,9 @@ import Header from '../Header';
 import { Dolphin, LikeCountIcon, MyPageProfile, Profile } from '../../asset';
 import CommentIcon from '../../asset/svg/CommentIcon';
 import instance from '../../apis/refresh';
-import TokenManager from '../../apis/TokenManager';
 
 const MyPage = () => {
   const [posts, setPosts] = useState([]);
-
-  const tokenManager = new TokenManager();
-  const token = tokenManager.accessToken;
 
   useEffect(() => {
     try {
