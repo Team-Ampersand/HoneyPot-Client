@@ -23,3 +23,7 @@ export { default as CurrentWindowIcon } from './CurrentWindowIcon';
 export { default as NextWindowIcon } from './NextWindowIcon';
 export { default as CommentIcon } from './CommentIcon';
 export { default as WriteButton } from './WriteButton';
+export { default as MyPageProfile } from './MyPageProfile';
+export { default as Profile } from './Profile';
+export { default as MyPageUser } from './MyPageUser';
+export { default as Logout } from './Logout';

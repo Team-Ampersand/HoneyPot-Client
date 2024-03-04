@@ -11,14 +11,13 @@ instance.interceptors.request.use(async (config) => {
   const accessTokenIsValid = tokenManager.validateToken(tokenManager.accessTokenExpiresIn, tokenManager.accessToken);
   const refreshTokenIsValid = tokenManager.validateToken(tokenManager.refreshTokenExpiresIn, tokenManager.refreshToken);
 
-  if (config.url.includes('signin') || config.url.includes('signup')) 
-    return
+  if(config.url.includes('sign')) return;
   else if (!accessTokenIsValid && refreshTokenIsValid) {
-    await tokenManager.reissueToken(tokenManager.refreshToken)
+    await tokenManager.reissueToken(tokenManager.refreshToken);
     tokenManager.initToken();
-} else if (!accessTokenIsValid && !refreshTokenIsValid) {
-    tokenManager.removeTokens();
-}
+    // } else if (!accessTokenIsValid && !refreshTokenIsValid) {
+    //   tokenManager.removeTokens();
+  }
 
   config.headers['Authorization'] = tokenManager.accessToken ? `Bearer ${tokenManager.accessToken}` : undefined;
 
