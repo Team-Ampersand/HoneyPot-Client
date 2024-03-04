@@ -9,7 +9,7 @@ import {
   ProfileIcon,
   Thumbnail,
 } from '../../asset';
-import instance from '../../apis/refresh';
+import instance from '../../apis';
 import { useNavigate } from 'react-router';
 
 const Main = () => {
