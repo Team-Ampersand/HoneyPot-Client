@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Header from '../Header';
 import * as S from './style';
 import {
+  AddPost,
   CommentIcon,
   LikeCountIcon,
   NoticeImg,
   ProfileIcon,
   Thumbnail,
-  WriteButton,
 } from '../../asset';
 import instance from '../../apis/refresh';
 import { useNavigate } from 'react-router';
@@ -250,7 +250,7 @@ const Main = () => {
           </S.PostPart>
         </S.MainContainer>
         <S.WriteButton onClick={() => navigate('/writing')}>
-          <WriteButton />
+          <AddPost />
         </S.WriteButton>
       </S.Background>
     </>
