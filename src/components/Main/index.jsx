@@ -36,14 +36,8 @@ const Main = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        await instance
-          .get(`/post/list`, { category: category })
-          .then((res) => {
-            setList(res.data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+        const res = await instance.get(`/post/list`, { category: category });
+        setList(res.data);
       } catch (error) {
         if (error.response && error.response.status === 400) {
           alert('카테고리가 잘못되었습니다');
@@ -60,14 +54,8 @@ const Main = () => {
   useEffect(() => {
     const getHottopic = async () => {
       try {
-        await instance
-          .get(`/post/hottopic`)
-          .then((res) => {
-            setHottopic(res.data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+        const res = await instance.get(`/post/hottopic`)
+        setHottopic(res.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           alert('인증에 문제가 발생했습니다.');
