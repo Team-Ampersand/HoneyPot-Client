@@ -3,8 +3,7 @@ import * as S from './style';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../common';
 import { EmailIcon, LockIcon, ShowIcon } from '../../asset';
-import { instance } from '../../apis';
-import TokenManager from '../../apis/TokenManager';
+import { instance, TokenManager } from '../../apis';
 
 const SignIn = () => {
   const navigate = useNavigate();
