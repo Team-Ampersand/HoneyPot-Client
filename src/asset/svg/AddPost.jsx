@@ -1,4 +1,4 @@
-const WriteButton = () => {
+const AddPost = () => {
   return (
     <svg
       width='60'
@@ -19,4 +19,4 @@ const WriteButton = () => {
   );
 };
 
-export default WriteButton;
+export default AddPost;

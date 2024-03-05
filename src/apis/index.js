@@ -1,2 +1,2 @@
-export { default as refresh } from './refresh';
+export { default as instance } from './instance';
 export { default as TokenManager } from './TokenManager';

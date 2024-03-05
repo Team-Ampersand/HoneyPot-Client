@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Background = styled.div`
   background: #f7f8fa;
+  height: 100%;
   display: flex;
   align-items: center;
   overflow-y: hidden;
@@ -11,7 +12,7 @@ export const Background = styled.div`
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1240px;
+  align-items: center;
   height: 100%;
   gap: 24px;
 `;
@@ -59,17 +60,6 @@ export const NoticeImg = styled.div`
   background: url(${({ src }) => src});
 `;
 
-export const NoticeProgress = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-self: end;
-  position: relative;
-  right: 600px;
-  z-index: 100;
-  gap: 8px;
-  margin-bottom: 32px;
-`;
-
 export const SelectionPart = styled.div`
   display: flex;
   flex-direction: row;
@@ -112,6 +102,7 @@ export const NotSelectedText = styled.span`
 `;
 
 export const PostPart = styled.div`
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -177,6 +168,15 @@ export const BookOTTContainer = styled.span`
   filter: drop-shadow(4px 8px 25px rgba(112, 144, 176, 0.1));
 `;
 
+export const WriteButton = styled.div`
+  position: fixed;
+  bottom: 32px;
+  right: 40px;
+
+  cursor: pointer;
+`;
+
+
 export const PostBackground = styled.div`
   display: flex;
   flex-direction: row;
@@ -187,8 +187,8 @@ export const PostBackground = styled.div`
   height: 284px;
   border-radius: 20px;
   box-shadow: 4px 8px 25px 0 rgba(112, 144, 176, 0.1);
-
   background-color: #fff;
+  cursor: pointer;
 `;
 
 export const PostContainer = styled.div`
@@ -289,10 +289,4 @@ export const PostThumbnail = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 20px;
-`;
-
-export const WriteButton = styled.div`
-  position: fixed;
-  bottom: 32px;
-  right: 40px;
 `;
