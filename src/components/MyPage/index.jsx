@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import Header from '../Header';
-import { Dolphin, LikeCountIcon, MyPageProfile, Profile } from '../../asset';
+import { Thumbnail, LikeCountIcon, MyPageProfile, Profile } from '../../asset';
 import CommentIcon from '../../asset/svg/CommentIcon';
-import instance from '../../apis/refresh';
+import {instance} from '../../apis';
 
 const MyPage = () => {
   const [posts, setPosts] = useState([]);
@@ -53,7 +53,7 @@ const MyPage = () => {
               </S.LikeCommentContainer>
             </S.PostContainer>
             {/* <S.PostThumbnail src={Dolphin} /> */}
-            <S.PostThumbnail src={posts.preview || Dolphin} />
+            <S.PostThumbnail src={posts.previewImage || Thumbnail} />
           </S.PostBackground>
         ))}
       </S.BodyContainer>

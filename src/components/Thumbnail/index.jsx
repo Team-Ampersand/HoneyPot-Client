@@ -3,22 +3,30 @@ import * as S from './style';
 import Header from '../Header';
 import { ThumbnailImg } from '../../asset';
 import { useNavigate } from 'react-router';
-import instance from '../../apis/refresh';
+import { instance } from '../../apis';
 
 const Thumbnail = () => {
   const navigate = useNavigate();
   const [thumbnail, setThumbnail] = useState(null);
+  const postId = localStorage.getItem('postId');
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setThumbnail(file);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      await instance.post(`/post/previewImage`, {
-        previewImage: thumbnail,
+      const formData = new FormData();
+      formData.append('previewImage', thumbnail, thumbnail.name); // 파일의 이름을 함께 추가
+
+      await instance.post(`/post/preview/${postId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
+
       navigate('/');
     } catch (error) {
       if (error.response && error.response.status === 400) {

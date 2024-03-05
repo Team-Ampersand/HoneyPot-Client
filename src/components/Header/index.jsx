@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { HeaderLogo, Logout, MyPageUser, ProfileIcon, SearchIcon } from '../../asset';
 import * as S from './style';
 import HeaderSeeMore from '../../asset/svg/HeaderSeeMore';
-import instance from '../../apis/refresh';
+import { instance } from '../../apis';
 import { TokenManager } from '../../apis';
 
 const Header = () => {

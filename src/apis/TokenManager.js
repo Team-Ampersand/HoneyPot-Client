@@ -14,17 +14,16 @@ class TokenManager {
 
   validateToken(expiredString, token) {
     if (!expiredString || !token) return false;
-  
-    return this.calculateSeconds(expiredString, 1)>= new Date();
+
+    return this.calculateSeconds(expiredString, 1) >= new Date();
   }
-  
+
   calculateSeconds(expiredDate, addSecond) {
-    const expiredAt = expiredDate? new Date(expiredDate) : new Date();
+    const expiredAt = expiredDate ? new Date(expiredDate) : new Date();
     expiredAt.setSeconds(expiredAt.getSeconds() + addSecond);
-  
+
     return expiredAt;
   }
-  
 
   initToken() {
     if (typeof window === 'undefined') return;
@@ -64,7 +63,7 @@ class TokenManager {
     localStorage.removeItem('refreshTokenExpiresIn');
   }
 
-  async reissueToken( refreshToken ) {
+  async reissueToken(refreshToken) {
     try {
       const { data } = await axios.patch(
         '/auth',
@@ -82,9 +81,10 @@ class TokenManager {
 
       return true;
     } catch (error) {
-      this.removeTokens();
-      window.location.href = '/';
-      return false;
+      // this.removeTokens();
+      // window.location.href = '/';
+      // return false;
+      console.log(error);
     }
   }
 
