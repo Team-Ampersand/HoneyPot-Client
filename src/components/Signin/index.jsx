@@ -3,12 +3,11 @@ import * as S from './style';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../common';
 import { EmailIcon, LockIcon, ShowIcon } from '../../asset';
-import instance from '../../apis/refresh';
-import TokenManager from '../../apis/TokenManager';
+import { instance, TokenManager } from '../../apis';
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const tokenManager = new TokenManager()
+  const tokenManager = new TokenManager();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

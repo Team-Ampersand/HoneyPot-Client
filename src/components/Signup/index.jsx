@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../common/Auth/Button';
 import * as S from './style';
-import instance from '../../apis/refresh';
+import {instance} from '../../apis';
 
 const SignUp = () => {
   const navigate = useNavigate();

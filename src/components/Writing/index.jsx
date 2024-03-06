@@ -15,14 +15,14 @@ import {
   AddImg,
   AddDevText,
 } from '../../asset';
-import instance from '../../apis/refresh';
+import {instance} from '../../apis';
 
 const Writing = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [category, setCategory] = useState('뷰티/패션');
-  const [OTT, setOTT] = useState('');
-  const [book, setBook] = useState('');
+  const [title, setTitle] = useState(null);
+  const [content, setContent] = useState(null);
+  const [category, setCategory] = useState('BEAUTY');
+  const [OTT, setOTT] = useState(null);
+  const [book, setBook] = useState(null);
   const [images, setImages] = useState([]);
 
   const [selectedField, setSelectedField] = useState(null);
@@ -58,27 +58,19 @@ const Writing = () => {
   };
 
   const handleRegistration = () => {
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('category', category);
-    formData.append('OTT', OTT);
-    formData.append('book', book);
-    images.forEach((image, index) => {
-      formData.append(`images[${index}]`, image);
-    });
-
     instance
-      .post(`/post/write`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      .post(`/post/write`, {
+        title,
+        content,
+        category,
+        OTT,
+        book,
       })
       .then((response) => {
+        localStorage.setItem('postId', response.data);
         navigate('/thumbnail');
       })
       .catch((error) => {
-        // Handle errors
         if (error.response && error.response.status === 400) {
           alert('글을 다시 작성해주세요.');
           console.error('에러 발생:', error);
@@ -88,7 +80,6 @@ const Writing = () => {
         }
       });
   };
-
   const handleOption = (option) => {
     const optionMappings = {
       H1Text: '# ',
@@ -120,12 +111,12 @@ const Writing = () => {
           <S.CategoryContainer>
             <S.CategoryTitle>카테고리</S.CategoryTitle>
             <S.CategorySelect value={category} onChange={selectCategory}>
-              <S.CategoryOption>뷰티/패션</S.CategoryOption>
-              <S.CategoryOption>책</S.CategoryOption>
+              <S.CategoryOption>BEAUTY</S.CategoryOption>
+              <S.CategoryOption>BOOK</S.CategoryOption>
               <S.CategoryOption>OTT</S.CategoryOption>
-              <S.CategoryOption>생활</S.CategoryOption>
-              <S.CategoryOption>건강</S.CategoryOption>
-              <S.CategoryOption>여행</S.CategoryOption>
+              <S.CategoryOption>LIFE</S.CategoryOption>
+              <S.CategoryOption>HEALTH</S.CategoryOption>
+              <S.CategoryOption>TRAVEL</S.CategoryOption>
             </S.CategorySelect>
           </S.CategoryContainer>
           <S.OptionContainer>
@@ -170,16 +161,16 @@ const Writing = () => {
             </S.AddOption>
           </S.OptionContainer>
         </S.FunctionContainer>
-        {category === '책' || category === 'OTT' ? (
+        {category === 'BOOK' || category === 'OTT' ? (
           <S.FieldContainer>
-            {category === '책' &&
-              ['시', '문학', '비문학', '전공', '기타'].map((item, index) => (
+            {category === 'BOOK' &&
+              ['POETRY', 'LITERATURE', 'NONFICTION', 'MAJOR', 'OTHER '].map((item, index) => (
                 <S.FieldText key={index} onClick={() => handleBookClick(item)} style={{ color: selectedField === item ? '#ffc300' : 'inherit' }}>
                   {item}
                 </S.FieldText>
               ))}
             {category === 'OTT' &&
-              ['Wavve', 'TVING', 'WATCHA', 'Disney+', 'Netflix'].map((item, index) => (
+              ['WAVVE', 'TVING', 'WATCHA', 'DISNEP', 'NETFLIX'].map((item, index) => (
                 <S.FieldText key={index} onClick={() => handleOTTClick(item)} style={{ color: selectedField === item ? '#ffc300' : 'inherit' }}>
                   {item}
                 </S.FieldText>
