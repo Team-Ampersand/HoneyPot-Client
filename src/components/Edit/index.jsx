@@ -35,7 +35,7 @@ const Edit = () => {
 
   
 
-  function convertToMarkdown(htmlText) {
+  const convertToMarkdown = (htmlText) => {
     const turndownService = new TurndownService();
     return turndownService.turndown(htmlText);
   }
@@ -145,12 +145,12 @@ const Edit = () => {
           <S.CategoryContainer>
             <S.CategoryTitle>카테고리</S.CategoryTitle>
             <S.CategorySelect value={category} onChange={selectCategory}>
-              <S.CategoryOption>뷰티/패션</S.CategoryOption>
-              <S.CategoryOption>책</S.CategoryOption>
+              <S.CategoryOption>BEAUTY</S.CategoryOption>
+              <S.CategoryOption>BOOK</S.CategoryOption>
               <S.CategoryOption>OTT</S.CategoryOption>
-              <S.CategoryOption>생활</S.CategoryOption>
-              <S.CategoryOption>건강</S.CategoryOption>
-              <S.CategoryOption>여행</S.CategoryOption>
+              <S.CategoryOption>LIFE</S.CategoryOption>
+              <S.CategoryOption>HEALTH</S.CategoryOption>
+              <S.CategoryOption>TRAVEL</S.CategoryOption>
             </S.CategorySelect>
           </S.CategoryContainer>
           <S.OptionContainer>
@@ -203,7 +203,7 @@ const Edit = () => {
         {category === '책' || category === 'OTT' ? (
           <S.FieldContainer>
             {category === '책' &&
-              ['시', '문학', '비문학', '전공', '기타'].map((item, index) => (
+              ['POETRY', 'LITERATURE', 'NONFICTION', 'MAJOR', 'OTHER '].map((item, index) => (
                 <S.FieldText
                   key={index}
                   onClick={() => handleBookClick(item)}
@@ -215,7 +215,7 @@ const Edit = () => {
                 </S.FieldText>
               ))}
             {category === 'OTT' &&
-              ['Wavve', 'TVING', 'WATCHA', 'Disney+', 'Netflix'].map(
+              ['WAVVE', 'TVING', 'WATCHA', 'DISNEP', 'NETFLIX'].map(
                 (item, index) => (
                   <S.FieldText
                     key={index}
