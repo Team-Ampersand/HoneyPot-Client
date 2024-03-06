@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import * as S from './style';
 import Header from '../Header';
@@ -21,7 +21,7 @@ import TurndownService from 'turndown';
 const Edit = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [id,setId] = useState(0);
+  const [id, setId] = useState(0);
   const [category, setCategory] = useState('뷰티/패션');
   const [OTT, setOTT] = useState('');
   const [book, setBook] = useState('');
@@ -29,16 +29,16 @@ const Edit = () => {
 
   const [selectedField, setSelectedField] = useState(null);
 
+  const inputRef = useRef(null);
+
   const navigate = useNavigate();
 
   const location = useLocation();
 
-  
-
   const convertToMarkdown = (htmlText) => {
     const turndownService = new TurndownService();
     return turndownService.turndown(htmlText);
-  }
+  };
 
   const onChangeInput = (e) => {
     const {
@@ -112,8 +112,13 @@ const Edit = () => {
 
     const optionText = optionMappings[option];
 
+    const cursorPosition = inputRef.current.selectionStart;
+    const currentValue = inputRef.current.value;
+
+    console.log(currentValue.substring(0, cursorPosition));
+
     const newText =
-      content +
+      currentValue.substring(0, cursorPosition) +
       (option === 'LinkText'
         ? optionText
         : optionText +
@@ -123,7 +128,8 @@ const Edit = () => {
           option === 'MiddlelineText' ||
           option === 'DevText'
             ? optionText
-            : ''));
+            : '')) +
+      currentValue.substring(cursorPosition);
     setContent(newText);
   };
 
@@ -139,7 +145,7 @@ const Edit = () => {
 
   return (
     <S.Background>
-      <Header/>
+      <Header />
       <S.WritingContainer>
         <S.FunctionContainer>
           <S.CategoryContainer>
@@ -203,17 +209,19 @@ const Edit = () => {
         {category === '책' || category === 'OTT' ? (
           <S.FieldContainer>
             {category === '책' &&
-              ['POETRY', 'LITERATURE', 'NONFICTION', 'MAJOR', 'OTHER '].map((item, index) => (
-                <S.FieldText
-                  key={index}
-                  onClick={() => handleBookClick(item)}
-                  style={{
-                    color: selectedField === item ? '#ffc300' : 'inherit',
-                  }}
-                >
-                  {item}
-                </S.FieldText>
-              ))}
+              ['POETRY', 'LITERATURE', 'NONFICTION', 'MAJOR', 'OTHER '].map(
+                (item, index) => (
+                  <S.FieldText
+                    key={index}
+                    onClick={() => handleBookClick(item)}
+                    style={{
+                      color: selectedField === item ? '#ffc300' : 'inherit',
+                    }}
+                  >
+                    {item}
+                  </S.FieldText>
+                )
+              )}
             {category === 'OTT' &&
               ['WAVVE', 'TVING', 'WATCHA', 'DISNEP', 'NETFLIX'].map(
                 (item, index) => (
@@ -243,6 +251,7 @@ const Edit = () => {
           value={content}
           onChange={onChangeInput}
           placeholder='내용을 작성해주세요.'
+          ref={inputRef}
         ></S.TextDetail>
         <S.ButtonContainer>
           <S.SubmitButton onClick={handleRegistration}>수정하기</S.SubmitButton>
