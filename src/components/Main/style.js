@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Background = styled.div`
   background: #f7f8fa;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   overflow-y: hidden;

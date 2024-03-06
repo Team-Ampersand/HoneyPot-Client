@@ -4,9 +4,10 @@ export const Background = styled.div`
   background: #f7f8fa;
   display: flex;
   align-items: center;
-  overflow-y: hidden;
   flex-direction: column;
   gap: 30px;
+  min-height: 100vh;
+  overflow-y: auto;
 `;
 
 export const PostBackground = styled.div`
@@ -16,7 +17,7 @@ export const PostBackground = styled.div`
   gap: 42px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   margin-bottom: 50px;
 `;
 
@@ -28,7 +29,7 @@ export const PostContainer = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  max-width: 784px;
+  width: 784px;
   display: flex;
   flex-direction: column;
   gap: 26px;
@@ -81,6 +82,8 @@ export const TextContainer = styled.div`
 `;
 
 export const ContentText = styled.p`
+  white-space: normal;
+  word-wrap: break-word;
   flex-grow: 0;
   flex-shrink: 0;
   font-family: Pretendard;
@@ -90,24 +93,12 @@ export const ContentText = styled.p`
   line-height: normal;
   text-align: left;
   color: #000;
-`;
 
-export const HText = styled.p`
-  flex-grow: 0;
-  flex-shrink: 0;
-  font-family: Pretendard;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  text-align: left;
-  color: #000;
-`;
-
-export const ContentImage = styled.img`
-  max-width: 50vw;
-  max-height: 50vh;
-  object-fit: cover;
+  img{
+    max-width: 50vw;
+    max-height: 50vh;
+    object-fit: cover;
+  }
 `;
 
 export const CommentContainer = styled.div`
@@ -135,46 +126,9 @@ export const CommentNumber = styled.p`
   color: #000;
 `;
 
-export const WritingComment = styled.textarea`
-  max-width: 784px;
-  height: 158px;
-  resize: none;
-  outline: none;
-  border-radius: 10px;
-  border-width: 1px;
-  border-color: #ddd;
-  padding: 20px 22px;
-
-  font-family: Pretendard;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: left;
-  color: #707070;
-`;
-
-export const RegistButton = styled.button`
-  align-self: flex-end;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 84px;
-  height: 25px;
-  background: #ffc300;
-  border: 0;
-  border-radius: 5px;
-
-  flex-grow: 0;
-  flex-shrink: 0;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-`;
-
 export const Comments = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 15px;
 `;
 
@@ -213,15 +167,6 @@ export const CommentAuthorName = styled.span`
   color: #000;
 `;
 
-export const CommentWriteDate = styled.span`
-  flex-grow: 0;
-  flex-shrink: 0;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: left;
-  color: #999;
-`;
-
 export const CommentBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -238,19 +183,126 @@ export const CommentContent = styled.span`
   color: #000;
 `;
 
-export const AddReplyContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-self: flex-start;
-  gap: 4px;
+export const WritingComment = styled.textarea`
+  max-width: 784px;
+  height: 158px;
+  resize: none;
+  outline: none;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: #ddd;
+  padding: 20px 22px;
+
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  color: #707070;
 `;
 
-export const AddReplyText = styled.span`
+export const RegistButton = styled.button`
+  align-self: flex-end;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 84px;
+  height: 25px;
+  background: #ffc300;
+  border: 0;
+  border-radius: 5px;
+
   flex-grow: 0;
   flex-shrink: 0;
   font-family: Pretendard;
   font-size: 14px;
   font-weight: 600;
-  text-align: left;
-  color: #ffc300;
+  color: #fff;
+
+  cursor: pointer;
 `;
+
+export const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.25);
+  z-index: 100;
+`
+
+export const Modal = styled.div`
+  width: 442px; 
+  height: 224px; 
+  transform: translate(-25%, -25%);
+  border-radius: 10px; 
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+`
+
+export const ModalTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  top: 32px;
+  left: 36px;
+`
+
+export const ModalTitle = styled.span`
+  flex-grow: 0; 
+  flex-shrink: 0; 
+  font-family: Pretendard;
+  font-size: 24px; 
+  font-weight: 700; 
+  text-align: left; 
+  color: #191919;
+`
+
+export const ModalContent = styled.span`
+  flex-grow: 0; 
+  flex-shrink: 0; 
+  font-family: Pretendard;
+  font-size: 18px; 
+  font-weight: 500; 
+  text-align: left; 
+  color: #191919;
+`
+
+export const ModalButtonContainer = styled.div`
+  align-self: flex-end;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  position: relative;
+  top: 96px;
+  right: 30px;
+`
+
+export const CheckButton = styled.button`
+  border: none;
+  border-radius: 5px;
+  width: 60px;
+  height: 26px;
+  background: #ffc300;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-grow: 0; 
+  flex-shrink: 0;  
+  font-size: 14px; 
+  font-weight: 500; 
+  text-align: center; 
+  color: #fff;
+
+  cursor: pointer;
+`
+
+export const CancelButton = styled(CheckButton)`
+  background: #999;
+`

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Background = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   background: #f7f8fa;
   display: flex;
   align-items: center;

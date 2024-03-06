@@ -1,8 +1,9 @@
+//썸네일
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../common/Auth/Button';
 import * as S from './style';
-import {instance} from '../../apis';
+import { instance } from '../../apis';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -55,23 +56,47 @@ const SignUp = () => {
             <S.InputContainer>
               <S.DataContainer>
                 <S.InputText>닉네임</S.InputText>
-                <S.SignUpInput type="text" name="nickname" onChange={onChangeInput} value={nickname} placeholder="닉네임을 입력해주세요." />
+                <S.SignUpInput
+                  type='text'
+                  name='nickname'
+                  onChange={onChangeInput}
+                  value={nickname}
+                  placeholder='닉네임을 입력해주세요.'
+                />
               </S.DataContainer>
               <S.DataContainer>
                 <S.InputText>아이디</S.InputText>
-                <S.SignUpInput type="text" name="username" onChange={onChangeInput} value={username} placeholder="아이디를 입력해주세요." />
+                <S.SignUpInput
+                  type='text'
+                  name='username'
+                  onChange={onChangeInput}
+                  value={username}
+                  placeholder='아이디를 입력해주세요.'
+                />
               </S.DataContainer>
               <S.DataContainer>
                 <S.InputText>비밀번호</S.InputText>
-                <S.SignUpInput type="password" name="password" onChange={onChangeInput} value={password} placeholder="비밀번호를 입력해주세요." />
+                <S.SignUpInput
+                  type='password'
+                  name='password'
+                  onChange={onChangeInput}
+                  value={password}
+                  placeholder='비밀번호를 입력해주세요.'
+                />
               </S.DataContainer>
               <S.DataContainer>
                 <S.InputText>비밀번호 확인</S.InputText>
-                <S.SignUpInput type="password" name="checkPw" onChange={onChangeInput} value={checkPw} placeholder="비밀번호를 입력해주세요." />
+                <S.SignUpInput
+                  type='password'
+                  name='checkPw'
+                  onChange={onChangeInput}
+                  value={checkPw}
+                  placeholder='비밀번호를 입력해주세요.'
+                />
               </S.DataContainer>
             </S.InputContainer>
           </S.InputContainer>
-          <Button clickFn={() => handleSignup()} text="회원가입" />
+          <Button clickFn={() => handleSignup()} text='회원가입' />
         </S.ComponentsContainer>
       </S.SignupContainer>
     </S.Background>

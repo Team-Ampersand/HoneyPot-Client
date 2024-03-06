@@ -8,3 +8,4 @@ export { default as Writing } from './Writing';
 export { default as Posting } from './Posting';
 export { default as Thumbnail } from './Thumbnail';
 export { default as Mypage } from './MyPage';
+export {default as Edit} from './Edit'

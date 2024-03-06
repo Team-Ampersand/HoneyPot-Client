@@ -47,6 +47,7 @@ export const SearchIcon = styled.div`
   height: 24px;
   position: absolute;
   right: 130px;
+  cursor: pointer;
 `;
 
 export const Profile = styled.div`
