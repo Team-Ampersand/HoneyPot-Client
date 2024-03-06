@@ -1,4 +1,3 @@
-//썸네일
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../common/Auth/Button';

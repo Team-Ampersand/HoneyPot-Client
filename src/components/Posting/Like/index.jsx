@@ -7,24 +7,23 @@ const Like = ({ likes, id }) => {
   const [clicked, setClicked] = useState(false);
 
   const handleLikeClick = async () => {
-    setClicked((pre)=>!pre)
-    // try {
-    //   await instance
-    //     .post(`/post/like/${id}`)
-    //     .then((res) => {
-    //       alert(res.data);
-    //       setClicked((pre)=>!pre);
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // } catch (error) {
-    //   if (error.response && error.response.status === 401) {
-    //     alert('인증에 문제가 발생했어요');
-    //   } else if (error.response && error.response.status === 403) {
-    //     console.log('다시 로그인 해주세요');
-    //   }
-    // }
+    try {
+      await instance
+        .post(`/post/like/${id}`)
+        .then((res) => {
+          alert(res.data);
+          setClicked((pre)=>!pre);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert('인증에 문제가 발생했어요');
+      } else if (error.response && error.response.status === 403) {
+        console.log('다시 로그인 해주세요');
+      }
+    }
   };
 
   return (
