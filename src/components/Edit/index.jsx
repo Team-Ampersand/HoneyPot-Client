@@ -68,7 +68,7 @@ const Edit = () => {
     setImages((imgs) => [...imgs, files]);
   };
 
-  const handleRegistration = () => {
+  const handleRegistration = async () => {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
@@ -76,25 +76,25 @@ const Edit = () => {
       formData.append(`images[${index}]`, image);
     });
 
-    instance
-      .put(`/post/${id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((response) => {
-        navigate('/');
-      })
-      .catch((error) => {
-        // Handle errors
-        if (error.response && error.response.status === 400) {
-          alert('글을 다시 작성해주세요.');
-          console.error('에러 발생:', error);
-        } else if (error.response && error.response.status === 403) {
-          console.log('다시 로그인 해주세요');
-          console.error('에러 발생:', error);
-        }
-      });
+    try {
+      await instance
+        .put(`/post/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }).then((response) => {
+          navigate('/');
+        });
+    } catch (error) {
+      // Handle errors
+      if (error.response && error.response.status === 400) {
+        alert('글을 다시 작성해주세요.');
+        console.error('에러 발생:', error);
+      } else if (error.response && error.response.status === 403) {
+        console.log('다시 로그인 해주세요');
+        console.error('에러 발생:', error);
+      }
+    }
   };
 
   const handleOption = (option) => {
