@@ -34,9 +34,7 @@ const Main = () => {
     }
   };
 
-  const writingKeyword = (e) => {
-    setKeyword(e.target.value);
-  };
+  const writingKeyword = (e) => setKeyword(e.target.value);
 
   const searchKeyword = async () => {
     try {
