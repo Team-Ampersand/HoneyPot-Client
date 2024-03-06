@@ -33,9 +33,7 @@ const Posting = () => {
     setIsOpen((pre) => !pre);
   };
 
-  const moveWriteContainer = () => {
-    commentWrite.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const moveWriteContainer = () => commentWrite.current?.scrollIntoView({ behavior: 'smooth' });
 
   const handleSubmit = async () => {
     try {
