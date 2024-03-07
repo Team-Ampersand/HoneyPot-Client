@@ -115,8 +115,6 @@ const Edit = () => {
     const cursorPosition = inputRef.current.selectionStart;
     const currentValue = inputRef.current.value;
 
-    console.log(currentValue.substring(0, cursorPosition));
-
     const newText =
       currentValue.substring(0, cursorPosition) +
       (option === 'LinkText'
