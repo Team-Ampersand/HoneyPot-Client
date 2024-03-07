@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import * as S from './style';
 import Header from '../Header';
 import {
@@ -16,18 +16,29 @@ import {
   AddDevText,
 } from '../../asset';
 import { instance } from '../../apis';
+import TurndownService from 'turndown';
 
-const Writing = () => {
-  const [title, setTitle] = useState(null);
-  const [content, setContent] = useState(null);
-  const [category, setCategory] = useState('BEAUTY');
-  const [OTT, setOTT] = useState(null);
-  const [book, setBook] = useState(null);
+const Edit = () => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [id, setId] = useState(0);
+  const [category, setCategory] = useState('뷰티/패션');
+  const [OTT, setOTT] = useState('');
+  const [book, setBook] = useState('');
   const [images, setImages] = useState([]);
 
   const [selectedField, setSelectedField] = useState(null);
 
+  const inputRef = useRef(null);
+
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const convertToMarkdown = (htmlText) => {
+    const turndownService = new TurndownService();
+    return turndownService.turndown(htmlText);
+  };
 
   const onChangeInput = (e) => {
     const {
@@ -57,28 +68,33 @@ const Writing = () => {
     setImages((imgs) => [...imgs, files]);
   };
 
-  const handleRegistration = () => {
-    instance
-      .post(`/post/write`, {
-        title,
-        content,
-        category,
-        OTT,
-        book,
-      })
-      .then((response) => {
-        localStorage.setItem('postId', response.data);
-        navigate('/thumbnail');
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 400) {
-          alert('글을 다시 작성해주세요.');
-          console.error('에러 발생:', error);
-        } else if (error.response && error.response.status === 403) {
-          console.log('다시 로그인 해주세요');
-          console.error('에러 발생:', error);
-        }
-      });
+  const handleRegistration = async () => {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    images.forEach((image, index) => {
+      formData.append(`images[${index}]`, image);
+    });
+
+    try {
+      await instance
+        .put(`/post/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }).then((response) => {
+          navigate('/');
+        });
+    } catch (error) {
+      // Handle errors
+      if (error.response && error.response.status === 400) {
+        alert('글을 다시 작성해주세요.');
+        console.error('에러 발생:', error);
+      } else if (error.response && error.response.status === 403) {
+        console.log('다시 로그인 해주세요');
+        console.error('에러 발생:', error);
+      }
+    }
   };
 
   const handleOption = (option) => {
@@ -96,13 +112,34 @@ const Writing = () => {
 
     const optionText = optionMappings[option];
 
+    const cursorPosition = inputRef.current.selectionStart;
+    const currentValue = inputRef.current.value;
+
     const newText =
-      content +
+      currentValue.substring(0, cursorPosition) +
       (option === 'LinkText'
         ? optionText
-        : optionText + '텍스트' + (option === 'BoldText' || option === 'ItalicText' || option === 'MiddlelineText' || option === 'DevText' ? optionText : ''));
+        : optionText +
+          '텍스트' +
+          (option === 'BoldText' ||
+          option === 'ItalicText' ||
+          option === 'MiddlelineText' ||
+          option === 'DevText'
+            ? optionText
+            : '')) +
+      currentValue.substring(cursorPosition);
     setContent(newText);
   };
+
+  useEffect(() => {
+    if (location.state) {
+      const info = location.state;
+      setTitle(info.title);
+      const convert = convertToMarkdown(info.content);
+      setContent(convert);
+      setId(info.id);
+    }
+  }, []);
 
   return (
     <S.Background>
@@ -154,7 +191,12 @@ const Writing = () => {
               </S.OptionLabel>
               <S.OptionLabel>
                 <AddImg />
-                <input onClick={handleFileChange} type="file" accept="image/png, image/jpeg, image/jpg" style={{ display: 'none' }} />
+                <input
+                  onClick={handleFileChange}
+                  type='file'
+                  accept='image/png, image/jpeg, image/jpg'
+                  style={{ display: 'none' }}
+                />
               </S.OptionLabel>
               <S.OptionLabel onChange={() => handleOption('DevText')}>
                 <AddDevText />
@@ -162,31 +204,59 @@ const Writing = () => {
             </S.AddOption>
           </S.OptionContainer>
         </S.FunctionContainer>
-        {category === 'BOOK' || category === 'OTT' ? (
+        {category === '책' || category === 'OTT' ? (
           <S.FieldContainer>
-            {category === 'BOOK' &&
-              ['POETRY', 'LITERATURE', 'NONFICTION', 'MAJOR', 'OTHER '].map((item, index) => (
-                <S.FieldText key={index} onClick={() => handleBookClick(item)} style={{ color: selectedField === item ? '#ffc300' : 'inherit' }}>
-                  {item}
-                </S.FieldText>
-              ))}
+            {category === '책' &&
+              ['POETRY', 'LITERATURE', 'NONFICTION', 'MAJOR', 'OTHER '].map(
+                (item, index) => (
+                  <S.FieldText
+                    key={index}
+                    onClick={() => handleBookClick(item)}
+                    style={{
+                      color: selectedField === item ? '#ffc300' : 'inherit',
+                    }}
+                  >
+                    {item}
+                  </S.FieldText>
+                )
+              )}
             {category === 'OTT' &&
-              ['WAVVE', 'TVING', 'WATCHA', 'DISNEP', 'NETFLIX'].map((item, index) => (
-                <S.FieldText key={index} onClick={() => handleOTTClick(item)} style={{ color: selectedField === item ? '#ffc300' : 'inherit' }}>
-                  {item}
-                </S.FieldText>
-              ))}
+              ['WAVVE', 'TVING', 'WATCHA', 'DISNEP', 'NETFLIX'].map(
+                (item, index) => (
+                  <S.FieldText
+                    key={index}
+                    onClick={() => handleOTTClick(item)}
+                    style={{
+                      color: selectedField === item ? '#ffc300' : 'inherit',
+                    }}
+                  >
+                    {item}
+                  </S.FieldText>
+                )
+              )}
           </S.FieldContainer>
         ) : null}
 
-        <S.Title type="text" name="title" value={title} onChange={onChangeInput} placeholder="제목을 입력하세요." />
-        <S.TextDetail name="content" value={content} onChange={onChangeInput} placeholder="내용을 작성해주세요."></S.TextDetail>
+        <S.Title
+          type='text'
+          name='title'
+          value={title}
+          onChange={onChangeInput}
+          placeholder='제목을 입력하세요.'
+        />
+        <S.TextDetail
+          name='content'
+          value={content}
+          onChange={onChangeInput}
+          placeholder='내용을 작성해주세요.'
+          ref={inputRef}
+        ></S.TextDetail>
         <S.ButtonContainer>
-          <S.SubmitButton onClick={handleRegistration}>등록하기</S.SubmitButton>
+          <S.SubmitButton onClick={handleRegistration}>수정하기</S.SubmitButton>
         </S.ButtonContainer>
       </S.WritingContainer>
     </S.Background>
   );
 };
 
-export default Writing;
+export default Edit;

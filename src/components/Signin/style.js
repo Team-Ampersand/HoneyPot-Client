@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Background = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   background: #f7f8fa;
   display: flex;
   justify-content: center;

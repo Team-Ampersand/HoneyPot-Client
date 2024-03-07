@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Background = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   background: #f7f8fa;
   display: flex;
   align-items: center;
@@ -156,7 +156,7 @@ export const TextDetail = styled.textarea`
   border: none;
   background-color: #f1f1f5;
   border-radius: 5px;
-  padding: 20px 20px;
+  padding: 20px;
 
   color: #999;
   font-family: 'Pretendard';

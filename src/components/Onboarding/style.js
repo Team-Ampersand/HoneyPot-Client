@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Background = styled.div`
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   background: linear-gradient(
     109deg,

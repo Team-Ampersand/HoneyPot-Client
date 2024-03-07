@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Main, Onboarding, SignIn, SignUp, Writing, Posting, Thumbnail, Mypage } from './components';
+import { Main, Onboarding, SignIn, SignUp, Writing, Posting, Thumbnail, Mypage, Edit } from './components';
 import { GlobalStyles } from './style/Globalstyle';
 
 function App() {
@@ -14,7 +14,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/writing" element={<Writing />} />
           <Route path="/thumbnail" element={<Thumbnail />} />
-          <Route path="/posting" element={<Posting />} />
+          <Route path="/posting/:id" element={<Posting />} />
+          <Route path='/edit' element={<Edit/>} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>

@@ -9,7 +9,7 @@ import {
   ProfileIcon,
   Thumbnail,
 } from '../../asset';
-import {instance} from '../../apis';
+import { instance } from '../../apis';
 import { useNavigate } from 'react-router';
 
 const Main = () => {
@@ -19,6 +19,7 @@ const Main = () => {
   const [category, setCategory] = useState('뷰티/패션');
   const [selectedBook, setSelectedBook] = useState('시');
   const [selectedOTT, setSelectedOTT] = useState('Wavve');
+  const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
 
   const handleSelection = (name, value) => {
@@ -33,10 +34,28 @@ const Main = () => {
     }
   };
 
+  const writingKeyword = (e) => setKeyword(e.target.value);
+
+  const searchKeyword = async () => {
+    try {
+      const params = { "keyword": keyword };
+      const res = await instance.get(`/post/search`, { params });
+      setList(res.data);
+      setHottopic(res.data);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert('인증에 문제가 발생했습니다.');
+      } else if (error.response && error.response.status === 403) {
+        alert('권한이 없습니다.');
+      }
+    }
+  };
+
   useEffect(() => {
     const getPost = async () => {
       try {
-        const res = await instance.get(`/post/list`, { category: category });
+        const params = { "category": category };
+        const res = await instance.get(`/post/list`, { params });
         setList(res.data);
       } catch (error) {
         if (error.response && error.response.status === 400) {
@@ -54,7 +73,7 @@ const Main = () => {
   useEffect(() => {
     const getHottopic = async () => {
       try {
-        const res = await instance.get(`/post/hottopic`)
+        const res = await instance.get(`/post/hottopic`);
         setHottopic(res.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -69,7 +88,7 @@ const Main = () => {
 
   return (
     <>
-      <Header />
+      <Header typing={writingKeyword} search={searchKeyword} />
       <S.Background>
         <S.MainContainer>
           <S.NoticeBackground>
@@ -145,59 +164,64 @@ const Main = () => {
                 <S.CategoryPart>
                   <S.CategoryContainer
                     radius={
-                      category === '책' || category === 'OTT'
+                      category === 'BOOK' || category === 'OTT'
                         ? '10px 10px 0 0'
                         : '10px'
                     }
                   >
                     <S.CategoryInnerContainer>
-                      {['뷰티/패션', '책', 'OTT', '생활', '건강', '여행'].map(
-                        (item, index) => (
-                          <S.CategoryText
-                            key={index}
-                            onClick={() => handleSelection('category', item)}
-                            color={category === item ? '#ffc300' : '#999'}
-                          >
-                            {item}
-                          </S.CategoryText>
-                        )
-                      )}
+                      {[
+                        'BEAUTY',
+                        'BOOK',
+                        'OTT',
+                        'LIFE',
+                        'HEALTH',
+                        'TRAVEL',
+                      ].map((item, index) => (
+                        <S.CategoryText
+                          key={index}
+                          onClick={() => handleSelection('category', item)}
+                          color={category === item ? '#ffc300' : '#999'}
+                        >
+                          {item}
+                        </S.CategoryText>
+                      ))}
                     </S.CategoryInnerContainer>
                   </S.CategoryContainer>
 
-                  {category === '책' || category === 'OTT' ? (
+                  {category === 'BOOK' || category === 'OTT' ? (
                     <S.BookOTTContainer>
                       <S.CategoryInnerContainer>
-                        {category === '책' &&
-                          ['시', '문학', '비문학', '전공', '기타'].map(
+                        {category === 'BOOK' &&
+                          [
+                            'POETRY',
+                            'LITERATURE',
+                            'NONFICTION',
+                            'MAJOR',
+                            'OTHER ',
+                          ].map((item, index) => (
+                            <S.CategoryText
+                              key={index}
+                              onClick={() => handleSelection('book', item)}
+                              color={selectedBook === item ? '#ffc300' : '#999'}
+                            >
+                              {item}
+                            </S.CategoryText>
+                          ))}
+                        {category === 'OTT' &&
+                          ['WAVVE', 'TVING', 'WATCHA', 'DISNEP', 'NETFLIX'].map(
                             (item, index) => (
                               <S.CategoryText
                                 key={index}
-                                onClick={() => handleSelection('book', item)}
+                                onClick={() => handleSelection('ott', item)}
                                 color={
-                                  selectedBook === item ? '#ffc300' : '#999'
+                                  selectedOTT === item ? '#ffc300' : '#999'
                                 }
                               >
                                 {item}
                               </S.CategoryText>
                             )
                           )}
-                        {category === 'OTT' &&
-                          [
-                            'Wavve',
-                            'TVING',
-                            'WATCHA',
-                            'Disney+',
-                            'Netflix',
-                          ].map((item, index) => (
-                            <S.CategoryText
-                              key={index}
-                              onClick={() => handleSelection('ott', item)}
-                              color={selectedOTT === item ? '#ffc300' : '#999'}
-                            >
-                              {item}
-                            </S.CategoryText>
-                          ))}
                       </S.CategoryInnerContainer>
                     </S.BookOTTContainer>
                   ) : null}

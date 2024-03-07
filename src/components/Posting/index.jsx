@@ -1,102 +1,241 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as S from './style';
 import Header from '../Header';
-import { AddReply, Dolphin, ProfileIcon } from '../../asset';
+import Like from './Like'
+import { ProfileIcon } from '../../asset';
+import { useNavigate, useParams } from 'react-router-dom';
+import { instance } from '../../apis';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+
 const Posting = () => {
+  const [posting, setPosting] = useState({});
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [comment, setComment] = useState('');
+  const [commentIndex, setCommentIndex] = useState(0);
+  const [countComment, setCountComment] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isComment, setIsComment] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const commentWrite = useRef(null);
+  const markdownText = useRef(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const handleModal = (name) => {
+    if (name === 'comment') {
+      setIsComment(true);
+    } else if (name === 'post') {
+      setIsComment(false);
+    }
+    setIsOpen((pre) => !pre);
+  };
+
+  const moveWriteContainer = () => commentWrite.current?.scrollIntoView({ behavior: 'smooth' });
+
+  const handleSubmit = async () => {
+    try {
+      await instance
+        .post(`/comment/${id}/write`, { content: comment })
+        .then((res) => {
+          alert(res.data);
+        }).catch((e)=>{
+          console.log(e)
+        })
+    } catch (error) {
+      if(error.response&&error.response.status === 400){
+        alert('유효한 post가 없습니다.');
+      }
+    }
+  };
+
+  const editComment = (text, index) => {
+    moveWriteContainer();
+    setComment(text);
+    setIsEdit(true);
+    setCommentIndex(index);
+  };
+
+  const handleEditSubmit = async () => {
+    try {
+      await instance
+        .put(`/post/${id}`, {
+          title: title,
+          content: content,
+        })
+        .then((response) => {
+          navigate('/');
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert('글을 다시 작성해주세요.');
+        console.error('에러 발생:', error);
+      } else if (error.response && error.response.status === 403) {
+        console.log('다시 로그인 해주세요');
+        console.error('에러 발생:', error);
+      }
+    }
+  };
+
+  const deletePosting = async () => {
+    try {
+      await instance
+        .delete(`/post/${id}`)
+        .then((res) => {
+          alert(res.data);
+          navigate('/');
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert('다시 시도해주세요');
+      } else if (error.response && error.response.status === 401) {
+        alert('인증에 문제가 발생했습니다.');
+      } else if (error.response && error.response.status === 403) {
+        alert('권한이 없습니다.');
+      }
+    }
+  };
+
+  const deleteComment = async () => {
+    try {
+      await instance
+        .delete(`/post/${commentIndex}`)
+        .then((res) => {
+          alert(res.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert('다시 시도해주세요');
+      } else if (error.response && error.response.status === 401) {
+        alert('인증에 문제가 발생했습니다.');
+      } else if (error.response && error.response.status === 403) {
+        alert('권한이 없습니다.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const res = await instance.get(`/post/${id}`)
+        setPosting(res.data);
+        setTitle(res.data.title);
+        setContent(res.data.content);
+        setCountComment(res.data.comment.length);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          alert('인증에 문제가 발생했습니다.');
+        } else if (error.response && error.response.status === 403) {
+          alert('권한이 없습니다.');
+        }
+      }
+    };
+    getPost();
+  }, [id]);
   return (
     <S.Background>
       <Header />
+      {isOpen ? (
+        <S.ModalBackground>
+          <S.Modal>
+            <S.ModalTextContainer>
+              <S.ModalTitle>{isComment ? '댓글 삭제' : '글 삭제'}</S.ModalTitle>
+              <S.CommentContent>정말로 삭제하겠습니까?</S.CommentContent>
+            </S.ModalTextContainer>
+            <S.ModalButtonContainer>
+              <S.CancelButton onClick={handleModal}>취소</S.CancelButton>
+              <S.CheckButton onClick={isComment?deleteComment:deletePosting}>확인</S.CheckButton>
+            </S.ModalButtonContainer>
+          </S.Modal>
+        </S.ModalBackground>
+      ) : null}
       <S.PostBackground>
+        <Like likes = {posting.likes} id={id}/>
         <S.PostContainer>
           <S.ContentContainer>
-            <S.ContentTitle>요즘은 제주가 최고!!</S.ContentTitle>
+            <S.ContentTitle>{posting.title}</S.ContentTitle>
             <S.CreationContainer>
               <S.DivideContainer>
-                <S.CreationText>류지민</S.CreationText>
-                <S.CreationText>2024 - 01 - 20</S.CreationText>
+                <S.CreationText>{posting.author}</S.CreationText>
               </S.DivideContainer>
               <S.DivideContainer>
-                <S.FunctionText>수정</S.FunctionText>
-                <S.FunctionText>삭제</S.FunctionText>
+                <S.FunctionText
+                  onClick={() =>
+                    navigate(`/edit`, {
+                      state: {
+                        title: title,
+                        content: content,
+                        id: id,
+                      },
+                    })
+                  }
+                >
+                  수정
+                </S.FunctionText>
+                <S.FunctionText onClick={() => handleModal('post')}>
+                  삭제
+                </S.FunctionText>
               </S.DivideContainer>
             </S.CreationContainer>
             <S.TextContainer>
               <S.ContentText>
-                날씨가 좋은 봄 저는 제주도를 찾았는데요. 봄이라 그런지 날도
-                따듯하고 가족끼리 여행온 사람들도 많이 보이더라구요. 바다는
-                강원도가 최고라고 생각했던게 무색하게 제주 바다도 너무
-                예쁘더라구요. 그럼 지금부터 4인가족 제주 4박 5일 여행 코스, 제주
-                여행 꿀팁 알려드릴게요! 그 언젠가 나를 위해 꽃다발을 전해주던 그
-                소녀 오 늘따라 그 소녀가 왜 이렇게 보고 싶을까 비에 젖은
-                풀잎저럼 단발머릴 곱게 빗은 그 소녀 반짝이는 눈 망울이 내 마음에
-                되살아나네 내 마음 외로워 질때면 그 날을 생각하고 그 날이 그리워
-                질때면 꿈길을 헤매는데 못잊을 그리움 남기고 그 소녀 데려간
-                세월이 미워라
-              </S.ContentText>
-              <S.HText>제주 돌고래 스팟</S.HText>
-              <S.ContentImage src={Dolphin} />
-              <S.ContentText>
-                날씨가 좋은 봄 저는 제주도를 찾았는데요. 봄이라 그런지 날도
-                따듯하고 가족끼리 여행온 사람들도 많이 보이더라구요. 바다는
-                강원도가 최고라고 생각했던게 무색하게 제주 바다도 너무
-                예쁘더라구요. 그럼 지금부터 4인가족 제주 4박 5일 여행 코스, 제주
-                여행 꿀팁 알려드릴게요! 그 언젠가 나를 위해 꽃다발을 전해주던 그
-                소녀 오늘따라 그 소녀가 왜 이렇게 보고 싶을까 비에 젖은 풀잎저럼
-                단발머릴 곱게빗은 그 소녀 반짝이는 눈 망울이 내 마음에
-                되살아나네 내 마음 외로워 질때면 그 날을 생각하고 그 날이 그리워
-                질때면 꿈길을 헤매는데 못잊을 그리움 남기고 그 소녀 데려간
-                세월이 미워라 날씨가 좋은 봄저는 제주도를 찾았는데요. 봄이라
-                그런지 날도 따듯하고 가족끼리 여행온 사람들도 많이 보이더라구요.
-                바다는 강원도가 최고라고 생각했던게 무색하게 제주 바다도 너무
-                예쁘더라구요. 그럼 지금부터 4인가족 제주 4박 5일 여행 코스, 제주
-                여행 꿀팁 알려드릴게요! 그 언젠가 나를 위해 꽃다발을 전해주던 그
-                소녀 오늘따라 그 소녀가 왜 이렇게 보고 싶을까 비에 젖은 풀잎저럼
-                단발머릴 곱게 빗은 그 소녀반짝이는 눈 망울이 내 마음에
-                되살아나네 내 마음 외로워 질때면 그 날을 생각하고 그 날이 그리워
-                질때면 꿈길을 헤매는데 못잊을 그리움 남기고 그 소녀 데려간
-                세월이 미워라 그 언젠가 나를 위해 꽃다발을 전해주던 그 소녀
-                오늘따라 그 소녀가 왜 이렇게 보고 싶을까 비에 젖은 풀잎처럼
-                단발머릴 곱게 빚은 그 소녀 오늘따라 그 소녀가 왜 이렇게 보고
-                싶을
+                <ReactMarkdown children={content} ref={markdownText} rehypePlugins={rehypeRaw}/>
               </S.ContentText>
             </S.TextContainer>
           </S.ContentContainer>
           <S.CommentContainer>
             <S.WritingCommentContainer>
-              <S.CommentNumber>1개의 댓글</S.CommentNumber>
-              <S.WritingComment placeholder='댓글을 작성하세요.' />
-              <S.RegistButton>댓글 작성</S.RegistButton>
+              <S.CommentNumber>{countComment}개의 댓글</S.CommentNumber>
+              <S.WritingComment
+                placeholder='댓글을 작성하세요.'
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                ref={commentWrite}
+              />
+              <S.RegistButton
+                onClick={isEdit ?()=>handleEditSubmit():()=>handleSubmit()}
+              >
+                {isEdit?'댓글 수정':'댓글 작성'}
+              </S.RegistButton>
             </S.WritingCommentContainer>
-            <S.Comments>
-              <S.CommentHeader>
-                <S.ProfileContainer>
-                  <S.ProfileImage>
-                    <ProfileIcon />
-                  </S.ProfileImage>
-                  <S.CommentAuthorContainer>
-                    <S.CommentAuthorName>류지민</S.CommentAuthorName>
-                    <S.CommentWriteDate>3일전</S.CommentWriteDate>
-                  </S.CommentAuthorContainer>
-                </S.ProfileContainer>
-                <S.DivideContainer>
-                  <S.FunctionText>수정</S.FunctionText>
-                  <S.FunctionText>삭제</S.FunctionText>
-                </S.DivideContainer>
-              </S.CommentHeader>
-              <S.CommentBody>
-                <S.CommentContent>
-                  그 언젠가 나를 위해 꽃다발을 전해주던 그 소녀 오늘따라 그
-                  소녀가 왜 이렇게 보고 싶을가 비에 젖은 풀잎처럼 단발머릴 곱게
-                  빗은 그 소녀 반짝이는 눈망울이 내 마음에 되살아나네 내 마음
-                  외로워 질때면그날을 생각하고 그 날이 그리워질 때면 꿈 길을
-                  헤매는데 못잊을 그리움 남기고 그 소녀 데려간 세월이 미워라
-                </S.CommentContent>
-              </S.CommentBody>
-              <S.AddReplyContainer>
-                <AddReply />
-                <S.AddReplyText>답글 달기</S.AddReplyText>
-              </S.AddReplyContainer>
-            </S.Comments>
+            {posting.comment &&
+              posting.comment.map((item, index) => {
+                return(<S.Comments key={index}>
+                  <S.CommentHeader>
+                    <S.ProfileContainer>
+                      <S.ProfileImage>
+                        <ProfileIcon />
+                      </S.ProfileImage>
+                      <S.CommentAuthorContainer>
+                        <S.CommentAuthorName>{item.author}</S.CommentAuthorName>
+                      </S.CommentAuthorContainer>
+                    </S.ProfileContainer>
+                    <S.DivideContainer>
+                      <S.FunctionText
+                        onClick={() => editComment(item.comment, index)}
+                      >
+                        수정
+                      </S.FunctionText>
+                      <S.FunctionText onClick={() => handleModal('comment')}>
+                        삭제
+                      </S.FunctionText>
+                    </S.DivideContainer>
+                  </S.CommentHeader>
+                  <S.CommentBody>
+                    <S.CommentContent>{item.comment}</S.CommentContent>
+                  </S.CommentBody>
+                </S.Comments>)
+              })}
           </S.CommentContainer>
         </S.PostContainer>
       </S.PostBackground>

@@ -5,7 +5,7 @@ import * as S from './style';
 import HeaderSeeMore from '../../asset/svg/HeaderSeeMore';
 import { instance, TokenManager } from '../../apis';
 
-const Header = () => {
+const Header = ({typing,search}) => {
   const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
@@ -43,8 +43,8 @@ const Header = () => {
         <HeaderLogo />
       </S.Logo>
       <S.SearchProfileContainer>
-        <S.Search type="text"></S.Search>
-        <S.SearchIcon>
+        <S.Search type="text" onChange={(e)=>typing(e)}></S.Search>
+        <S.SearchIcon onClick={search}>
           <SearchIcon />
         </S.SearchIcon>
         <S.Profile>
