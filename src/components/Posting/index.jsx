@@ -7,7 +7,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { instance } from '../../apis';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-import axios from 'axios';
 
 const Posting = () => {
   const [posting, setPosting] = useState({});
@@ -128,7 +127,7 @@ const Posting = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/post`)
+        const res = await instance.get(`/post/${id}`)
         setPosting(res.data);
         setTitle(res.data.title);
         setContent(res.data.content);
