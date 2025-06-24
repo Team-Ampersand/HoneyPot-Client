@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import * as S from './style';
-import Header from '../Header';
-import { Thumbnail, LikeCountIcon, MyPageProfile, Profile } from '../../asset';
-import CommentIcon from '../../asset/svg/CommentIcon';
-import {instance} from '../../apis';
+import React, { useEffect, useState } from "react";
+import * as S from "./style";
+import Header from "../Header";
+import { Thumbnail, LikeCountIcon, MyPageProfile, Profile } from "../../asset";
+import CommentIcon from "../../asset/svg/CommentIcon";
+import { instance } from "../../apis";
 
 const MyPage = () => {
   const [posts, setPosts] = useState([]);
@@ -11,13 +11,11 @@ const MyPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await instance.get('/user');
+        const response = await instance.get("/user");
         setPosts(response.data.infoPosts);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+      } catch (error) {}
     };
-  
+
     fetchData();
   }, []);
 
@@ -31,7 +29,7 @@ const MyPage = () => {
       <S.BodyContainer>
         <S.BodyTitle>내가 작성한 글</S.BodyTitle>
         {posts.map((posts) => (
-          <S.PostBackground key={posts.id}>
+          <S.PostBackground to={`/posting/${posts.postId}`} key={posts.id}>
             <S.PostContainer>
               <S.ProfileContainer>
                 <Profile />

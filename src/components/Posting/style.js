@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Background = styled.div`
   background: #f7f8fa;
@@ -94,7 +94,7 @@ export const ContentText = styled.p`
   text-align: left;
   color: #000;
 
-  img{
+  img {
     max-width: 50vw;
     max-height: 50vh;
     object-fit: cover;
@@ -230,19 +230,19 @@ export const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0,0,0,0.25);
+  background-color: rgba(0, 0, 0, 0.25);
   z-index: 100;
-`
+`;
 
 export const Modal = styled.div`
-  width: 442px; 
-  height: 224px; 
+  width: 442px;
+  height: 224px;
   transform: translate(-25%, -25%);
-  border-radius: 10px; 
+  border-radius: 10px;
   background: #fff;
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const ModalTextContainer = styled.div`
   display: flex;
@@ -251,27 +251,27 @@ export const ModalTextContainer = styled.div`
   position: relative;
   top: 32px;
   left: 36px;
-`
+`;
 
 export const ModalTitle = styled.span`
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   font-family: Pretendard;
-  font-size: 24px; 
-  font-weight: 700; 
-  text-align: left; 
+  font-size: 24px;
+  font-weight: 700;
+  text-align: left;
   color: #191919;
-`
+`;
 
 export const ModalContent = styled.span`
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   font-family: Pretendard;
-  font-size: 18px; 
-  font-weight: 500; 
-  text-align: left; 
+  font-size: 18px;
+  font-weight: 500;
+  text-align: left;
   color: #191919;
-`
+`;
 
 export const ModalButtonContainer = styled.div`
   align-self: flex-end;
@@ -281,7 +281,7 @@ export const ModalButtonContainer = styled.div`
   position: relative;
   top: 96px;
   right: 30px;
-`
+`;
 
 export const CheckButton = styled.button`
   border: none;
@@ -293,16 +293,30 @@ export const CheckButton = styled.button`
   justify-content: center;
   align-items: center;
 
-  flex-grow: 0; 
-  flex-shrink: 0;  
-  font-size: 14px; 
-  font-weight: 500; 
-  text-align: center; 
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
   color: #fff;
 
   cursor: pointer;
-`
+`;
 
 export const CancelButton = styled(CheckButton)`
   background: #999;
-`
+`;
+
+export const LikeRowContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 32px;
+  margin-bottom: -16px;
+  @media (max-width: 600px) {
+    justify-content: flex-start;
+    margin-top: 16px;
+    margin-bottom: 0;
+  }
+`;

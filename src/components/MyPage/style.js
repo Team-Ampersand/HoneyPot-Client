@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 export const Background = styled.div`
   min-height: 100vh;
@@ -23,12 +24,17 @@ export const UserName = styled.p`
   font-size: 32px;
   font-weight: 500;
   margin: 0;
+  @media (max-width: 600px) {
+    font-size: 22px;
+  }
 `;
 
 export const BodyContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
+  max-width: 1240px;
 `;
 
 export const BodyTitle = styled.p`
@@ -37,18 +43,30 @@ export const BodyTitle = styled.p`
   font-size: 28px;
   font-weight: 600;
   margin: 0;
+  @media (max-width: 600px) {
+    font-size: 20px;
+  }
 `;
 
-export const PostBackground = styled.div`
+export const PostBackground = styled(Link)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 1240px;
+  width: 100%;
+  max-width: 1240px;
+  min-height: 180px;
   height: 284px;
   border-radius: 20px;
   box-shadow: 4px 8px 25px 0 rgba(112, 144, 176, 0.1);
-
   background-color: #fff;
+  text-decoration: none;
+  margin-bottom: 16px;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    height: auto;
+    min-height: 220px;
+    padding: 16px 0;
+  }
 `;
 
 export const PostContainer = styled.div`
@@ -58,6 +76,11 @@ export const PostContainer = styled.div`
   align-items: flex-start;
   margin: 40px 65px;
   gap: 16px;
+  flex: 1;
+  @media (max-width: 600px) {
+    margin: 16px 12px;
+    width: 100%;
+  }
 `;
 
 export const ProfileContainer = styled.div`
@@ -74,12 +97,16 @@ export const PostAuthorName = styled.p`
   font-size: 20px;
   font-weight: 500;
   margin: 0;
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
 export const PostTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
 `;
 
 export const PostTitle = styled.span`
@@ -87,6 +114,9 @@ export const PostTitle = styled.span`
   font-size: 28px;
   font-weight: 600;
   color: #000;
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 export const PostContent = styled.span`
   font-family: Pretendard;
@@ -97,8 +127,13 @@ export const PostContent = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
-  width: 770px;
+  width: 100%;
+  max-width: 770px;
   color: #707070;
+  @media (max-width: 600px) {
+    max-width: 100%;
+    font-size: 16px;
+  }
 `;
 
 export const LikeCommentContainer = styled.div`
@@ -134,4 +169,9 @@ export const PostThumbnail = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 20px;
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 180px;
+    margin-top: 12px;
+  }
 `;

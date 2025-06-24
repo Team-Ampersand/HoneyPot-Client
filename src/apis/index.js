@@ -1,2 +1,3 @@
-export { default as instance } from './instance';
-export { default as TokenManager } from './TokenManager';
+export { default as instance } from "./instance";
+export { default as getToken } from "./getToken";
+export { default as setToken } from "./setToken";

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-import * as S from './style';
-import Header from '../Header';
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import * as S from "./style";
+import Header from "../Header";
 import {
   AddH1Text,
   AddH2Text,
@@ -14,17 +14,18 @@ import {
   AddLinkText,
   AddImg,
   AddDevText,
-} from '../../asset';
-import { instance } from '../../apis';
-import TurndownService from 'turndown';
+} from "../../asset";
+import { instance } from "../../apis";
+import TurndownService from "turndown";
+import { toast } from "react-toastify";
 
 const Edit = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [id, setId] = useState(0);
-  const [category, setCategory] = useState('뷰티/패션');
-  const [OTT, setOTT] = useState('');
-  const [book, setBook] = useState('');
+  const [category, setCategory] = useState("뷰티/패션");
+  const [OTT, setOTT] = useState("");
+  const [book, setBook] = useState("");
   const [images, setImages] = useState([]);
 
   const [selectedField, setSelectedField] = useState(null);
@@ -44,9 +45,9 @@ const Edit = () => {
     const {
       target: { name, value },
     } = e;
-    if (name === 'title') {
+    if (name === "title") {
       setTitle(value);
-    } else if (name === 'content') {
+    } else if (name === "content") {
       setContent(value);
     }
   };
@@ -69,45 +70,41 @@ const Edit = () => {
   };
 
   const handleRegistration = async () => {
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    images.forEach((image, index) => {
-      formData.append(`images[${index}]`, image);
-    });
-
     try {
-      await instance
-        .put(`/post/${id}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }).then((response) => {
-          navigate('/');
-        });
+      const response = await instance.patch(`/post/${id}`, {
+        title,
+        content,
+      });
+      if (response.status === 200) {
+        toast.success("수정이 완료되었습니다!");
+        navigate("/");
+      } else {
+        toast.error("게시글 수정 실패");
+      }
     } catch (error) {
-      // Handle errors
       if (error.response && error.response.status === 400) {
-        alert('글을 다시 작성해주세요.');
-        console.error('에러 발생:', error);
+        toast.warning("글을 다시 작성해주세요.");
+      } else if (error.response && error.response.status === 401) {
+        toast.error("인증에 문제가 발생했습니다.");
       } else if (error.response && error.response.status === 403) {
-        console.log('다시 로그인 해주세요');
-        console.error('에러 발생:', error);
+        toast.error("다시 로그인 해주세요");
+      } else {
+        toast.error("게시글 수정 실패");
       }
     }
   };
 
   const handleOption = (option) => {
     const optionMappings = {
-      H1Text: '# ',
-      H2Text: '## ',
-      H3Text: '### ',
-      H4Text: '#### ',
-      BoldText: '**',
-      ItalicText: '_',
-      MiddlelineText: '~~',
-      LinkText: '[텍스트](링크를 입력해주세요)',
-      DevText: '```',
+      H1Text: "# ",
+      H2Text: "## ",
+      H3Text: "### ",
+      H4Text: "#### ",
+      BoldText: "**",
+      ItalicText: "_",
+      MiddlelineText: "~~",
+      LinkText: "![텍스트](링크를 입력해주세요)",
+      DevText: "```",
     };
 
     const optionText = optionMappings[option];
@@ -117,16 +114,16 @@ const Edit = () => {
 
     const newText =
       currentValue.substring(0, cursorPosition) +
-      (option === 'LinkText'
+      (option === "LinkText"
         ? optionText
         : optionText +
-          '텍스트' +
-          (option === 'BoldText' ||
-          option === 'ItalicText' ||
-          option === 'MiddlelineText' ||
-          option === 'DevText'
+          "텍스트" +
+          (option === "BoldText" ||
+          option === "ItalicText" ||
+          option === "MiddlelineText" ||
+          option === "DevText"
             ? optionText
-            : '')) +
+            : "")) +
       currentValue.substring(cursorPosition);
     setContent(newText);
   };
@@ -135,8 +132,7 @@ const Edit = () => {
     if (location.state) {
       const info = location.state;
       setTitle(info.title);
-      const convert = convertToMarkdown(info.content);
-      setContent(convert);
+      setContent(info.content);
       setId(info.id);
     }
   }, []);
@@ -159,75 +155,75 @@ const Edit = () => {
           </S.CategoryContainer>
           <S.OptionContainer>
             <S.HeaderOption>
-              <S.OptionLabel onClick={() => handleOption('H1Text')}>
+              <S.OptionLabel onClick={() => handleOption("H1Text")}>
                 <AddH1Text />
               </S.OptionLabel>
-              <S.OptionLabel onClick={() => handleOption('H2Text')}>
+              <S.OptionLabel onClick={() => handleOption("H2Text")}>
                 <AddH2Text />
               </S.OptionLabel>
-              <S.OptionLabel onClick={() => handleOption('H3Text')}>
+              <S.OptionLabel onClick={() => handleOption("H3Text")}>
                 <AddH3Text />
               </S.OptionLabel>
-              <S.OptionLabel onClick={() => handleOption('H4Text')}>
+              <S.OptionLabel onClick={() => handleOption("H4Text")}>
                 <AddH4Text />
               </S.OptionLabel>
             </S.HeaderOption>
             <OptionLine />
             <S.TextOption>
-              <S.OptionLabel onClick={() => handleOption('BoldText')}>
+              <S.OptionLabel onClick={() => handleOption("BoldText")}>
                 <AddBoldStyleText />
               </S.OptionLabel>
-              <S.OptionLabel onClick={() => handleOption('ItalicText')}>
+              <S.OptionLabel onClick={() => handleOption("ItalicText")}>
                 <AddItalicText />
               </S.OptionLabel>
-              <S.OptionLabel onClick={() => handleOption('MiddlelineText')}>
+              <S.OptionLabel onClick={() => handleOption("MiddlelineText")}>
                 <AddTextMiddleline />
               </S.OptionLabel>
             </S.TextOption>
             <OptionLine />
             <S.AddOption>
-              <S.OptionLabel onClick={() => handleOption('LinkText')}>
+              <S.OptionLabel onClick={() => handleOption("LinkText")}>
                 <AddLinkText />
               </S.OptionLabel>
               <S.OptionLabel>
                 <AddImg />
                 <input
                   onClick={handleFileChange}
-                  type='file'
-                  accept='image/png, image/jpeg, image/jpg'
-                  style={{ display: 'none' }}
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  style={{ display: "none" }}
                 />
               </S.OptionLabel>
-              <S.OptionLabel onChange={() => handleOption('DevText')}>
+              <S.OptionLabel onChange={() => handleOption("DevText")}>
                 <AddDevText />
               </S.OptionLabel>
             </S.AddOption>
           </S.OptionContainer>
         </S.FunctionContainer>
-        {category === '책' || category === 'OTT' ? (
+        {category === "책" || category === "OTT" ? (
           <S.FieldContainer>
-            {category === '책' &&
-              ['POETRY', 'LITERATURE', 'NONFICTION', 'MAJOR', 'OTHER '].map(
+            {category === "책" &&
+              ["POETRY", "LITERATURE", "NONFICTION", "MAJOR", "OTHER "].map(
                 (item, index) => (
                   <S.FieldText
                     key={index}
                     onClick={() => handleBookClick(item)}
                     style={{
-                      color: selectedField === item ? '#ffc300' : 'inherit',
+                      color: selectedField === item ? "#ffc300" : "inherit",
                     }}
                   >
                     {item}
                   </S.FieldText>
                 )
               )}
-            {category === 'OTT' &&
-              ['WAVVE', 'TVING', 'WATCHA', 'DISNEP', 'NETFLIX'].map(
+            {category === "OTT" &&
+              ["WAVVE", "TVING", "WATCHA", "DISNEP", "NETFLIX"].map(
                 (item, index) => (
                   <S.FieldText
                     key={index}
                     onClick={() => handleOTTClick(item)}
                     style={{
-                      color: selectedField === item ? '#ffc300' : 'inherit',
+                      color: selectedField === item ? "#ffc300" : "inherit",
                     }}
                   >
                     {item}
@@ -238,17 +234,17 @@ const Edit = () => {
         ) : null}
 
         <S.Title
-          type='text'
-          name='title'
+          type="text"
+          name="title"
           value={title}
           onChange={onChangeInput}
-          placeholder='제목을 입력하세요.'
+          placeholder="제목을 입력하세요."
         />
         <S.TextDetail
-          name='content'
+          name="content"
           value={content}
           onChange={onChangeInput}
-          placeholder='내용을 작성해주세요.'
+          placeholder="내용을 작성해주세요."
           ref={inputRef}
         ></S.TextDetail>
         <S.ButtonContainer>

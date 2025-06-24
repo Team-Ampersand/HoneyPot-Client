@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Background = styled.div`
   min-height: 100vh;
@@ -101,10 +101,10 @@ export const OptionContainer = styled.div`
 `;
 
 export const OptionLabel = styled.label`
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
-`
+`;
 
 export const HeaderOption = styled.div`
   display: flex;
@@ -159,7 +159,7 @@ export const TextDetail = styled.textarea`
   padding: 20px 20px;
 
   color: #999;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-size: 18px;
   font-weight: 500;
 `;

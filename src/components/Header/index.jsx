@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { HeaderLogo, Logout, MyPageUser, ProfileIcon, SearchIcon } from '../../asset';
-import * as S from './style';
-import HeaderSeeMore from '../../asset/svg/HeaderSeeMore';
-import { instance, TokenManager } from '../../apis';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  HeaderLogo,
+  Logout,
+  MyPageUser,
+  ProfileIcon,
+  SearchIcon,
+} from "../../asset";
+import * as S from "./style";
+import HeaderSeeMore from "../../asset/svg/HeaderSeeMore";
+import { instance } from "../../apis";
+import { toast } from "react-toastify";
 
-const Header = ({typing,search}) => {
+const Header = ({ typing, search }) => {
   const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
@@ -14,39 +21,42 @@ const Header = ({typing,search}) => {
     setShowModal(!showModal);
   };
 
-  const tokenManager = new TokenManager();
-  const accessToken = tokenManager.accessToken;
-  const refreshToken = tokenManager.refreshToken;
-
   const handleLogout = async () => {
     try {
-      await instance.delete('/auth', {
-        headers: {
-          refreshToken: `Bearer ${refreshToken}`,
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      tokenManager.removeTokens();
-      navigate('/');
+      await instance.delete("/auth");
+      toast.success("로그아웃 성공!");
+      navigate("/");
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        alert('토큰이 유효하지 않습니다.');
+        toast.error("토큰이 유효하지 않습니다.");
       } else if (error.response && error.response.status === 404) {
-        alert('토큰을 찾지 못했습니다.');
+        toast.error("토큰을 찾지 못했습니다.");
       }
     }
   };
 
   return (
     <S.HeaderContainer>
-      <S.Logo onClick={() => navigate('/')}>
+      <S.Logo onClick={() => navigate("/")}>
         <HeaderLogo />
       </S.Logo>
       <S.SearchProfileContainer>
-        <S.Search type="text" onChange={(e)=>typing(e)}></S.Search>
-        <S.SearchIcon onClick={search}>
-          <SearchIcon />
-        </S.SearchIcon>
+        <S.SearchWrapper>
+          <S.Search
+            type="text"
+            onChange={typing ? (e) => typing(e) : undefined}
+            disabled={!typing}
+          />
+          <S.SearchIcon
+            onClick={search ? search : undefined}
+            style={{
+              pointerEvents: search ? "auto" : "none",
+              opacity: search ? 1 : 0.5,
+            }}
+          >
+            <SearchIcon />
+          </S.SearchIcon>
+        </S.SearchWrapper>
         <S.Profile>
           <ProfileIcon />
         </S.Profile>
@@ -59,7 +69,7 @@ const Header = ({typing,search}) => {
           {showModal && (
             <S.ModalWrapper>
               <S.ModalContent>
-                <S.ContentContainer onClick={() => navigate('/mypage')}>
+                <S.ContentContainer onClick={() => navigate("/mypage")}>
                   <MyPageUser />
                   <S.ModalText>마이페이지</S.ModalText>
                 </S.ContentContainer>

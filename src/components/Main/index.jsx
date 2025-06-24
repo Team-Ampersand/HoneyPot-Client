@@ -1,35 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import Header from '../Header';
-import * as S from './style';
+import React, { useEffect, useState } from "react";
+import Header from "../Header";
+import * as S from "./style";
 import {
   AddPost,
-  CommentIcon,
   LikeCountIcon,
   NoticeImg,
   ProfileIcon,
   Thumbnail,
-} from '../../asset';
-import { instance } from '../../apis';
-import { useNavigate } from 'react-router';
+} from "../../asset";
+import { instance } from "../../apis";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+
+const CATEGORY_MAP = {
+  BEAUTY: "뷰티/패션",
+  BOOK: "책",
+  OTT: "OTT",
+  LIFE: "라이프",
+  HEALTH: "건강",
+  TRAVEL: "여행",
+};
+const CATEGORY_ENG = Object.keys(CATEGORY_MAP);
 
 const Main = () => {
   const [list, setList] = useState([]);
   const [hottopic, setHottopic] = useState([]);
   const [isTrend, setIsTrend] = useState(true);
-  const [category, setCategory] = useState('뷰티/패션');
-  const [selectedBook, setSelectedBook] = useState('시');
-  const [selectedOTT, setSelectedOTT] = useState('Wavve');
-  const [keyword, setKeyword] = useState('');
+  const [category, setCategory] = useState("BEAUTY");
+  const [selectedBook, setSelectedBook] = useState("POETRY");
+  const [selectedOTT, setSelectedOTT] = useState("WAVVE");
+  const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
 
   const handleSelection = (name, value) => {
-    if (name === 'trend') {
+    if (name === "trend") {
       setIsTrend((pre) => !pre);
-    } else if (name === 'category') {
+    } else if (name === "category") {
       setCategory(value);
-    } else if (name === 'book') {
+    } else if (name === "book") {
       setSelectedBook(value);
-    } else if (name === 'ott') {
+    } else if (name === "ott") {
       setSelectedOTT(value);
     }
   };
@@ -38,15 +48,15 @@ const Main = () => {
 
   const searchKeyword = async () => {
     try {
-      const params = { "keyword": keyword };
+      const params = { keyword: keyword };
       const res = await instance.get(`/post/search`, { params });
-      setList(res.data);
-      setHottopic(res.data);
+      setList(res.data.posts);
+      setHottopic(res.data.posts);
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        alert('인증에 문제가 발생했습니다.');
+        toast.error("인증에 문제가 발생했습니다.");
       } else if (error.response && error.response.status === 403) {
-        alert('권한이 없습니다.');
+        toast.error("권한이 없습니다.");
       }
     }
   };
@@ -54,16 +64,16 @@ const Main = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const params = { "category": category };
+        const params = { category: category };
         const res = await instance.get(`/post/list`, { params });
-        setList(res.data);
+        setList(res.data.posts);
       } catch (error) {
         if (error.response && error.response.status === 400) {
-          alert('카테고리가 잘못되었습니다');
+          toast.warning("카테고리가 잘못되었습니다");
         } else if (error.response && error.response.status === 401) {
-          alert('인증에 문제가 발생했습니다.');
+          toast.error("인증에 문제가 발생했습니다.");
         } else if (error.response && error.response.status === 403) {
-          alert('권한이 없습니다.');
+          toast.error("권한이 없습니다.");
         }
       }
     };
@@ -73,13 +83,13 @@ const Main = () => {
   useEffect(() => {
     const getHottopic = async () => {
       try {
-        const res = await instance.get(`/post/hottopic`);
-        setHottopic(res.data);
+        const res = await instance.get(`/post/topic`);
+        setHottopic(res.data.posts);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          alert('인증에 문제가 발생했습니다.');
+          toast.error("인증에 문제가 발생했습니다.");
         } else if (error.response && error.response.status === 403) {
-          alert('권한이 없습니다.');
+          toast.error("권한이 없습니다.");
         }
       }
     };
@@ -107,13 +117,13 @@ const Main = () => {
                   <S.SelectedText>트렌딩</S.SelectedText>
                   <S.SelectedBar />
                 </S.SelectionContainer>
-                <S.NotSelectedText onClick={() => handleSelection('trend')}>
+                <S.NotSelectedText onClick={() => handleSelection("trend")}>
                   토픽
                 </S.NotSelectedText>
               </>
             ) : (
               <>
-                <S.NotSelectedText onClick={() => handleSelection('trend')}>
+                <S.NotSelectedText onClick={() => handleSelection("trend")}>
                   트렌딩
                 </S.NotSelectedText>
                 <S.SelectionContainer>
@@ -127,11 +137,11 @@ const Main = () => {
             {isTrend ? (
               <>
                 <S.PostPartText>이주의 트랜드</S.PostPartText>
-                {hottopic.data &&
-                  hottopic.data.map((item) => (
+                {hottopic &&
+                  hottopic.map((item) => (
                     <S.PostBackground
-                      key={item.id}
-                      onClick={() => navigate(`/posting/${item.id}`)}
+                      key={item.postId}
+                      onClick={() => navigate(`/posting/${item.postId}`)}
                     >
                       <S.PostContainer>
                         <S.ProfileContainer>
@@ -146,16 +156,12 @@ const Main = () => {
                         </S.PostTextContainer>
                         <S.LikeCommentContainer>
                           <S.DivideContainer>
-                            <CommentIcon />
-                            <S.PostCountText>{item.comment}</S.PostCountText>
-                          </S.DivideContainer>
-                          <S.DivideContainer>
                             <LikeCountIcon />
-                            <S.PostCountText>{item.likeList}</S.PostCountText>
+                            <S.PostCountText>{item.likes}</S.PostCountText>
                           </S.DivideContainer>
                         </S.LikeCommentContainer>
                       </S.PostContainer>
-                      <S.PostThumbnail src={item.preview || Thumbnail} />
+                      <S.PostThumbnail src={item.previewImage || Thumbnail} />
                     </S.PostBackground>
                   ))}
               </>
@@ -164,73 +170,29 @@ const Main = () => {
                 <S.CategoryPart>
                   <S.CategoryContainer
                     radius={
-                      category === 'BOOK' || category === 'OTT'
-                        ? '10px 10px 0 0'
-                        : '10px'
+                      category === "BOOK" || category === "OTT"
+                        ? "10px 10px 0 0"
+                        : "10px"
                     }
                   >
                     <S.CategoryInnerContainer>
-                      {[
-                        'BEAUTY',
-                        'BOOK',
-                        'OTT',
-                        'LIFE',
-                        'HEALTH',
-                        'TRAVEL',
-                      ].map((item, index) => (
+                      {CATEGORY_ENG.map((item, index) => (
                         <S.CategoryText
                           key={index}
-                          onClick={() => handleSelection('category', item)}
-                          color={category === item ? '#ffc300' : '#999'}
+                          onClick={() => handleSelection("category", item)}
+                          color={category === item ? "#ffc300" : "#999"}
                         >
-                          {item}
+                          {CATEGORY_MAP[item]}
                         </S.CategoryText>
                       ))}
                     </S.CategoryInnerContainer>
                   </S.CategoryContainer>
-
-                  {category === 'BOOK' || category === 'OTT' ? (
-                    <S.BookOTTContainer>
-                      <S.CategoryInnerContainer>
-                        {category === 'BOOK' &&
-                          [
-                            'POETRY',
-                            'LITERATURE',
-                            'NONFICTION',
-                            'MAJOR',
-                            'OTHER ',
-                          ].map((item, index) => (
-                            <S.CategoryText
-                              key={index}
-                              onClick={() => handleSelection('book', item)}
-                              color={selectedBook === item ? '#ffc300' : '#999'}
-                            >
-                              {item}
-                            </S.CategoryText>
-                          ))}
-                        {category === 'OTT' &&
-                          ['WAVVE', 'TVING', 'WATCHA', 'DISNEP', 'NETFLIX'].map(
-                            (item, index) => (
-                              <S.CategoryText
-                                key={index}
-                                onClick={() => handleSelection('ott', item)}
-                                color={
-                                  selectedOTT === item ? '#ffc300' : '#999'
-                                }
-                              >
-                                {item}
-                              </S.CategoryText>
-                            )
-                          )}
-                      </S.CategoryInnerContainer>
-                    </S.BookOTTContainer>
-                  ) : null}
                 </S.CategoryPart>
-                {list.data &&
-                  list.data.map((item) => (
+                {list &&
+                  list.map((item) => (
                     <S.PostBackground
-                      key={item.id}
-                      onClick={() => navigate(`/posting/${item.id}`)}
+                      key={item.postId}
+                      onClick={() => navigate(`/posting/${item.postId}`)}
                     >
                       <S.PostContainer>
                         <S.ProfileContainer>
@@ -245,23 +207,19 @@ const Main = () => {
                         </S.PostTextContainer>
                         <S.LikeCommentContainer>
                           <S.DivideContainer>
-                            <CommentIcon />
-                            <S.PostCountText>{item.comment}</S.PostCountText>
-                          </S.DivideContainer>
-                          <S.DivideContainer>
                             <LikeCountIcon />
-                            <S.PostCountText>{item.likeList}</S.PostCountText>
+                            <S.PostCountText>{item.likes}</S.PostCountText>
                           </S.DivideContainer>
                         </S.LikeCommentContainer>
                       </S.PostContainer>
-                      <S.PostThumbnail src={item.preview || Thumbnail} />
+                      <S.PostThumbnail src={item.previewImage || Thumbnail} />
                     </S.PostBackground>
                   ))}
               </>
             )}
           </S.PostPart>
         </S.MainContainer>
-        <S.WriteButton onClick={() => navigate('/writing')}>
+        <S.WriteButton onClick={() => navigate("/writing")}>
           <AddPost />
         </S.WriteButton>
       </S.Background>
