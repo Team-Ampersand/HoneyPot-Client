@@ -11,6 +11,7 @@ import {
 import { instance } from "../../apis";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import WriteModal from "../common/Modal/WriteModal";
 
 const CATEGORY_MAP = {
   BEAUTY: "뷰티/패션",
@@ -30,6 +31,7 @@ const Main = () => {
   const [selectedBook, setSelectedBook] = useState("POETRY");
   const [selectedOTT, setSelectedOTT] = useState("WAVVE");
   const [keyword, setKeyword] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const handleSelection = (name, value) => {
@@ -219,10 +221,23 @@ const Main = () => {
             )}
           </S.PostPart>
         </S.MainContainer>
-        <S.WriteButton onClick={() => navigate("/writing")}>
+        <S.WriteButton onClick={() => setShowModal(true)}>
           <AddPost />
         </S.WriteButton>
       </S.Background>
+      {showModal && (
+        <WriteModal
+          onClose={() => setShowModal(false)}
+          onAIWrite={() => {
+            setShowModal(false);
+            navigate("/ai-writing");
+          }}
+          onWrite={() => {
+            setShowModal(false);
+            navigate("/writing");
+          }}
+        />
+      )}
     </>
   );
 };

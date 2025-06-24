@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Main,
   Onboarding,
@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import getToken from "./apis/getToken";
+import AIWriting from "./components/AIWriting";
 
 function AuthGuard({ children }) {
   const location = useLocation();
@@ -43,7 +44,7 @@ function App() {
   return (
     <div>
       <GlobalStyles />
-      <Router>
+      <BrowserRouter>
         <AuthGuard>
           <Routes>
             <Route path="/" element={<Root />} />
@@ -56,10 +57,11 @@ function App() {
             <Route path="/posting/:id" element={<Posting />} />
             <Route path="/edit" element={<Edit />} />
             <Route path="/mypage" element={<Mypage />} />
+            <Route path="/ai-writing" element={<AIWriting />} />
             <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </AuthGuard>
-      </Router>
+      </BrowserRouter>
       <ToastContainer
         position="top-right"
         autoClose={2000}

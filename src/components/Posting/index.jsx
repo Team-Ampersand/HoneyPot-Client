@@ -114,7 +114,7 @@ const Posting = () => {
       await instance
         .delete(`/post/${id}`)
         .then((res) => {
-          toast.success(res.data);
+          toast.success("게시글 삭제 성공");
           navigate("/");
         })
         .catch((e) => {});
@@ -207,7 +207,11 @@ const Posting = () => {
       <S.PostBackground>
         <S.PostContainer>
           <S.ContentContainer>
-            <S.ContentTitle>{posting.title}</S.ContentTitle>
+            <S.ContentTitle>
+              <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                {posting.title}
+              </ReactMarkdown>
+            </S.ContentTitle>
             <S.CreationContainer>
               <S.DivideContainer>
                 <S.CreationText>{posting.author}</S.CreationText>

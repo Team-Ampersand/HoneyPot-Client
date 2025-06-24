@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import * as S from "./style";
 import Header from "../Header";
@@ -29,6 +29,17 @@ const Writing = () => {
   const [selectedField, setSelectedField] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const aiTitle = localStorage.getItem("aiTitle");
+    const aiContent = localStorage.getItem("aiContent");
+    if (aiTitle || aiContent) {
+      setTitle(aiTitle || "");
+      setContent(aiContent || "");
+      localStorage.removeItem("aiTitle");
+      localStorage.removeItem("aiContent");
+    }
+  }, []);
 
   const onChangeInput = (e) => {
     const {
