@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as S from "./style";
 import Header from "../Header";
 import Like from "./Like";
+import SkeletonPosting from "./SkeletonPosting";
 import { ProfileIcon } from "../../asset";
 import { useNavigate, useParams } from "react-router-dom";
 import { instance } from "../../apis";
@@ -19,6 +20,7 @@ const Posting = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isComment, setIsComment] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const commentWrite = useRef(null);
   const markdownText = useRef(null);
   const { id } = useParams();
@@ -163,6 +165,7 @@ const Posting = () => {
 
   const getPost = async () => {
     try {
+      setIsLoading(true);
       const res = await instance.get(`/post/${id}`);
       setPosting(res.data);
       setTitle(res.data.title);
@@ -176,6 +179,8 @@ const Posting = () => {
       } else if (error.response && error.response.status === 403) {
         toast.error("권한이 없습니다.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -186,130 +191,141 @@ const Posting = () => {
   return (
     <S.Background>
       <Header />
-      {isOpen ? (
-        <S.ModalBackground>
-          <S.Modal>
-            <S.ModalTextContainer>
-              <S.ModalTitle>{isComment ? "댓글 삭제" : "글 삭제"}</S.ModalTitle>
-              <S.CommentContent>정말로 삭제하겠습니까?</S.CommentContent>
-            </S.ModalTextContainer>
-            <S.ModalButtonContainer>
-              <S.CancelButton onClick={handleModal}>취소</S.CancelButton>
-              <S.CheckButton
-                onClick={isComment ? deleteComment : deletePosting}
-              >
-                확인
-              </S.CheckButton>
-            </S.ModalButtonContainer>
-          </S.Modal>
-        </S.ModalBackground>
-      ) : null}
-      <S.PostBackground>
-        <S.PostContainer>
-          <S.ContentContainer>
-            <S.ContentTitle>
-              <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-                {posting.title}
-              </ReactMarkdown>
-            </S.ContentTitle>
-            <S.CreationContainer>
-              <S.DivideContainer>
-                <S.CreationText>{posting.author}</S.CreationText>
-              </S.DivideContainer>
-              <S.DivideContainer>
-                <S.FunctionText
-                  onClick={() =>
-                    navigate(`/edit`, {
-                      state: {
-                        title: title,
-                        content: content,
-                        id: id,
-                      },
-                    })
-                  }
-                >
-                  수정
-                </S.FunctionText>
-                <S.FunctionText onClick={() => handleModal("post")}>
-                  삭제
-                </S.FunctionText>
-              </S.DivideContainer>
-            </S.CreationContainer>
-            <Like
-              likes={posting.likes}
-              id={id}
-              likeStatus={posting.likeStatus}
-            />
-            <S.TextContainer>
-              <S.ContentText>
-                <ReactMarkdown rehypePlugins={[rehypeRaw]} ref={markdownText}>
-                  {content}
-                </ReactMarkdown>
-              </S.ContentText>
-            </S.TextContainer>
-          </S.ContentContainer>
-          <S.CommentContainer>
-            <S.WritingCommentContainer>
-              <S.CommentNumber>{countComment}개의 댓글</S.CommentNumber>
-              <S.WritingComment
-                placeholder="댓글을 작성하세요."
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                ref={commentWrite}
-              />
-              <S.RegistButton
-                onClick={
-                  isEdit ? () => handleEditSubmit() : () => handleSubmit()
-                }
-              >
-                {isEdit ? "댓글 수정" : "댓글 작성"}
-              </S.RegistButton>
-            </S.WritingCommentContainer>
-            {posting.comments &&
-              posting.comments.comments &&
-              posting.comments.comments.map((item, index) => {
-                return (
-                  <S.Comments key={item.id}>
-                    <S.CommentHeader>
-                      <S.ProfileContainer>
-                        <S.ProfileImage>
-                          <ProfileIcon />
-                        </S.ProfileImage>
-                        <S.CommentAuthorContainer>
-                          <S.CommentAuthorName>
-                            {item.author}
-                          </S.CommentAuthorName>
-                        </S.CommentAuthorContainer>
-                      </S.ProfileContainer>
-                      <S.DivideContainer>
-                        <S.FunctionText
-                          onClick={() => editComment(item.comment, item.id)}
-                        >
-                          수정
-                        </S.FunctionText>
-                        <S.FunctionText
-                          onClick={() => {
-                            setCommentIndex(item.id);
-                            handleModal("comment");
-                          }}
-                        >
-                          삭제
-                        </S.FunctionText>
-                      </S.DivideContainer>
-                    </S.CommentHeader>
-                    <S.CommentBody>
-                      <S.CommentContent
-                        dangerouslySetInnerHTML={{
-                          __html: item.comment.replace(/\n/g, "<br />"),
-                        }}
-                      />
-                    </S.CommentBody>
-                  </S.Comments>
-                );
-              })}
-          </S.CommentContainer>
-        </S.PostContainer>
-      </S.PostBackground>
+      {isLoading ? (
+        <SkeletonPosting />
+      ) : (
+        <>
+          {isOpen ? (
+            <S.ModalBackground>
+              <S.Modal>
+                <S.ModalTextContainer>
+                  <S.ModalTitle>
+                    {isComment ? "댓글 삭제" : "글 삭제"}
+                  </S.ModalTitle>
+                  <S.CommentContent>정말로 삭제하겠습니까?</S.CommentContent>
+                </S.ModalTextContainer>
+                <S.ModalButtonContainer>
+                  <S.CancelButton onClick={handleModal}>취소</S.CancelButton>
+                  <S.CheckButton
+                    onClick={isComment ? deleteComment : deletePosting}
+                  >
+                    확인
+                  </S.CheckButton>
+                </S.ModalButtonContainer>
+              </S.Modal>
+            </S.ModalBackground>
+          ) : null}
+          <S.PostBackground>
+            <S.PostContainer>
+              <S.ContentContainer>
+                <S.ContentTitle>
+                  <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                    {posting.title}
+                  </ReactMarkdown>
+                </S.ContentTitle>
+                <S.CreationContainer>
+                  <S.DivideContainer>
+                    <S.CreationText>{posting.author}</S.CreationText>
+                  </S.DivideContainer>
+                  <S.DivideContainer>
+                    <S.FunctionText
+                      onClick={() =>
+                        navigate(`/edit`, {
+                          state: {
+                            title: title,
+                            content: content,
+                            id: id,
+                          },
+                        })
+                      }
+                    >
+                      수정
+                    </S.FunctionText>
+                    <S.FunctionText onClick={() => handleModal("post")}>
+                      삭제
+                    </S.FunctionText>
+                  </S.DivideContainer>
+                </S.CreationContainer>
+                <Like
+                  likes={posting.likes}
+                  id={id}
+                  likeStatus={posting.likeStatus}
+                />
+                <S.TextContainer>
+                  <S.ContentText>
+                    <ReactMarkdown
+                      rehypePlugins={[rehypeRaw]}
+                      ref={markdownText}
+                    >
+                      {content}
+                    </ReactMarkdown>
+                  </S.ContentText>
+                </S.TextContainer>
+              </S.ContentContainer>
+              <S.CommentContainer>
+                <S.WritingCommentContainer>
+                  <S.CommentNumber>{countComment}개의 댓글</S.CommentNumber>
+                  <S.WritingComment
+                    placeholder="댓글을 작성하세요."
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    ref={commentWrite}
+                  />
+                  <S.RegistButton
+                    onClick={
+                      isEdit ? () => handleEditSubmit() : () => handleSubmit()
+                    }
+                  >
+                    {isEdit ? "댓글 수정" : "댓글 작성"}
+                  </S.RegistButton>
+                </S.WritingCommentContainer>
+                {posting.comments &&
+                  posting.comments.comments &&
+                  posting.comments.comments.map((item, index) => {
+                    return (
+                      <S.Comments key={item.id}>
+                        <S.CommentHeader>
+                          <S.ProfileContainer>
+                            <S.ProfileImage>
+                              <ProfileIcon />
+                            </S.ProfileImage>
+                            <S.CommentAuthorContainer>
+                              <S.CommentAuthorName>
+                                {item.author}
+                              </S.CommentAuthorName>
+                            </S.CommentAuthorContainer>
+                          </S.ProfileContainer>
+                          <S.DivideContainer>
+                            <S.FunctionText
+                              onClick={() => editComment(item.comment, item.id)}
+                            >
+                              수정
+                            </S.FunctionText>
+                            <S.FunctionText
+                              onClick={() => {
+                                setCommentIndex(item.id);
+                                handleModal("comment");
+                              }}
+                            >
+                              삭제
+                            </S.FunctionText>
+                          </S.DivideContainer>
+                        </S.CommentHeader>
+                        <S.CommentBody>
+                          <S.CommentContent
+                            dangerouslySetInnerHTML={{
+                              __html: item.comment.replace(/\n/g, "<br />"),
+                            }}
+                          />
+                        </S.CommentBody>
+                      </S.Comments>
+                    );
+                  })}
+              </S.CommentContainer>
+            </S.PostContainer>
+          </S.PostBackground>
+        </>
+      )}
     </S.Background>
   );
 };

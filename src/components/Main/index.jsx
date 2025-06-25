@@ -12,6 +12,7 @@ import { instance } from "../../apis";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import WriteModal from "../common/Modal/WriteModal";
+import SkeletonPost from "./SkeletonPost";
 
 const CATEGORY_MAP = {
   BEAUTY: "뷰티/패션",
@@ -30,6 +31,7 @@ const Main = () => {
   const [selectedOTT, setSelectedOTT] = useState("WAVVE");
   const [keyword, setKeyword] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSelection = (name, value) => {
@@ -46,6 +48,7 @@ const Main = () => {
 
   const searchKeyword = async () => {
     try {
+      setLoading(true);
       const params = { keyword: keyword };
       const res = await instance.get(`/post/search`, { params });
       setList(res.data.posts);
@@ -55,12 +58,15 @@ const Main = () => {
       } else if (error.response && error.response.status === 403) {
         toast.error("권한이 없습니다.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     const getPost = async () => {
       try {
+        setLoading(true);
         const params = { category: category };
         const res = await instance.get(`/post/list`, { params });
         setList(res.data.posts);
@@ -72,6 +78,8 @@ const Main = () => {
         } else if (error.response && error.response.status === 403) {
           toast.error("권한이 없습니다.");
         }
+      } finally {
+        setLoading(false);
       }
     };
     getPost();
@@ -113,7 +121,14 @@ const Main = () => {
                 </S.CategoryInnerContainer>
               </S.CategoryContainer>
             </S.CategoryPart>
-            {list &&
+            {loading ? (
+              <>
+                <SkeletonPost />
+                <SkeletonPost />
+                <SkeletonPost />
+              </>
+            ) : (
+              list &&
               list.map((item) => (
                 <S.PostBackground
                   key={item.postId}
@@ -139,7 +154,8 @@ const Main = () => {
                   </S.PostContainer>
                   <S.PostThumbnail src={item.previewImage || Thumbnail} />
                 </S.PostBackground>
-              ))}
+              ))
+            )}
           </S.PostPart>
         </S.MainContainer>
         <S.WriteButton onClick={() => setShowModal(true)}>
