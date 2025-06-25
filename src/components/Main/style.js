@@ -234,6 +234,7 @@ export const WriteButton = styled.div`
 export const PostBackground = styled.div`
   display: flex;
   padding: 16px;
+  gap: 60px;
   align-items: center;
   justify-content: space-between;
   width: 100%;
@@ -295,6 +296,12 @@ export const PostTitle = styled.span`
   font-weight: 600;
   text-align: left;
   color: #000;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
   @media (max-width: 600px) {
     font-size: 20px;
   }
@@ -305,12 +312,12 @@ export const PostContent = styled.span`
   font-size: 20px;
   text-align: left;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
-  max-width: 400px;
+
   color: #707070;
   @media (max-width: 600px) {
     font-size: 16px;
@@ -349,8 +356,4 @@ export const PostThumbnail = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 20px;
-  @media (max-width: 600px) {
-    width: 100%;
-    height: 200px;
-  }
 `;

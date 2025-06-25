@@ -25,8 +25,6 @@ const CATEGORY_ENG = Object.keys(CATEGORY_MAP);
 
 const Main = () => {
   const [list, setList] = useState([]);
-  const [hottopic, setHottopic] = useState([]);
-  const [isTrend, setIsTrend] = useState(true);
   const [category, setCategory] = useState("BEAUTY");
   const [selectedBook, setSelectedBook] = useState("POETRY");
   const [selectedOTT, setSelectedOTT] = useState("WAVVE");
@@ -35,9 +33,7 @@ const Main = () => {
   const navigate = useNavigate();
 
   const handleSelection = (name, value) => {
-    if (name === "trend") {
-      setIsTrend((pre) => !pre);
-    } else if (name === "category") {
+    if (name === "category") {
       setCategory(value);
     } else if (name === "book") {
       setSelectedBook(value);
@@ -53,7 +49,6 @@ const Main = () => {
       const params = { keyword: keyword };
       const res = await instance.get(`/post/search`, { params });
       setList(res.data.posts);
-      setHottopic(res.data.posts);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         toast.error("인증에 문제가 발생했습니다.");
@@ -82,22 +77,6 @@ const Main = () => {
     getPost();
   }, [category]);
 
-  useEffect(() => {
-    const getHottopic = async () => {
-      try {
-        const res = await instance.get(`/post/topic`);
-        setHottopic(res.data.posts);
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          toast.error("인증에 문제가 발생했습니다.");
-        } else if (error.response && error.response.status === 403) {
-          toast.error("권한이 없습니다.");
-        }
-      }
-    };
-    getHottopic();
-  }, [isTrend]);
-
   return (
     <>
       <Header typing={writingKeyword} search={searchKeyword} />
@@ -112,113 +91,55 @@ const Main = () => {
               <S.NoticeImg src={NoticeImg} />
             </S.BannerContainer>
           </S.NoticeBackground>
-          <S.SelectionPart>
-            {isTrend ? (
-              <>
-                <S.SelectionContainer>
-                  <S.SelectedText>트렌딩</S.SelectedText>
-                  <S.SelectedBar />
-                </S.SelectionContainer>
-                <S.NotSelectedText onClick={() => handleSelection("trend")}>
-                  토픽
-                </S.NotSelectedText>
-              </>
-            ) : (
-              <>
-                <S.NotSelectedText onClick={() => handleSelection("trend")}>
-                  트렌딩
-                </S.NotSelectedText>
-                <S.SelectionContainer>
-                  <S.SelectedText>토픽</S.SelectedText>
-                  <S.SelectedBar />
-                </S.SelectionContainer>
-              </>
-            )}
-          </S.SelectionPart>
           <S.PostPart>
-            {isTrend ? (
-              <>
-                <S.PostPartText>이주의 트랜드</S.PostPartText>
-                {hottopic &&
-                  hottopic.map((item) => (
-                    <S.PostBackground
-                      key={item.postId}
-                      onClick={() => navigate(`/posting/${item.postId}`)}
+            <S.CategoryPart>
+              <S.CategoryContainer
+                radius={
+                  category === "BOOK" || category === "OTT"
+                    ? "10px 10px 0 0"
+                    : "10px"
+                }
+              >
+                <S.CategoryInnerContainer>
+                  {CATEGORY_ENG.map((item, index) => (
+                    <S.CategoryText
+                      key={index}
+                      onClick={() => handleSelection("category", item)}
+                      color={category === item ? "#ffc300" : "#999"}
                     >
-                      <S.PostContainer>
-                        <S.ProfileContainer>
-                          <S.ProfileImage>
-                            <ProfileIcon />
-                          </S.ProfileImage>
-                          <S.PostAuthorName>{item.author}</S.PostAuthorName>
-                        </S.ProfileContainer>
-                        <S.PostTextContainer>
-                          <S.PostTitle>{item.title}</S.PostTitle>
-                          <S.PostContent>{item.content}</S.PostContent>
-                        </S.PostTextContainer>
-                        <S.LikeCommentContainer>
-                          <S.DivideContainer>
-                            <LikeCountIcon />
-                            <S.PostCountText>{item.likes}</S.PostCountText>
-                          </S.DivideContainer>
-                        </S.LikeCommentContainer>
-                      </S.PostContainer>
-                      <S.PostThumbnail src={item.previewImage || Thumbnail} />
-                    </S.PostBackground>
+                      {CATEGORY_MAP[item]}
+                    </S.CategoryText>
                   ))}
-              </>
-            ) : (
-              <>
-                <S.CategoryPart>
-                  <S.CategoryContainer
-                    radius={
-                      category === "BOOK" || category === "OTT"
-                        ? "10px 10px 0 0"
-                        : "10px"
-                    }
-                  >
-                    <S.CategoryInnerContainer>
-                      {CATEGORY_ENG.map((item, index) => (
-                        <S.CategoryText
-                          key={index}
-                          onClick={() => handleSelection("category", item)}
-                          color={category === item ? "#ffc300" : "#999"}
-                        >
-                          {CATEGORY_MAP[item]}
-                        </S.CategoryText>
-                      ))}
-                    </S.CategoryInnerContainer>
-                  </S.CategoryContainer>
-                </S.CategoryPart>
-                {list &&
-                  list.map((item) => (
-                    <S.PostBackground
-                      key={item.postId}
-                      onClick={() => navigate(`/posting/${item.postId}`)}
-                    >
-                      <S.PostContainer>
-                        <S.ProfileContainer>
-                          <S.ProfileImage>
-                            <ProfileIcon />
-                          </S.ProfileImage>
-                          <S.PostAuthorName>{item.author}</S.PostAuthorName>
-                        </S.ProfileContainer>
-                        <S.PostTextContainer>
-                          <S.PostTitle>{item.title}</S.PostTitle>
-                          <S.PostContent>{item.content}</S.PostContent>
-                        </S.PostTextContainer>
-                        <S.LikeCommentContainer>
-                          <S.DivideContainer>
-                            <LikeCountIcon />
-                            <S.PostCountText>{item.likes}</S.PostCountText>
-                          </S.DivideContainer>
-                        </S.LikeCommentContainer>
-                      </S.PostContainer>
-                      <S.PostThumbnail src={item.previewImage || Thumbnail} />
-                    </S.PostBackground>
-                  ))}
-              </>
-            )}
+                </S.CategoryInnerContainer>
+              </S.CategoryContainer>
+            </S.CategoryPart>
+            {list &&
+              list.map((item) => (
+                <S.PostBackground
+                  key={item.postId}
+                  onClick={() => navigate(`/posting/${item.postId}`)}
+                >
+                  <S.PostContainer>
+                    <S.ProfileContainer>
+                      <S.ProfileImage>
+                        <ProfileIcon />
+                      </S.ProfileImage>
+                      <S.PostAuthorName>{item.author}</S.PostAuthorName>
+                    </S.ProfileContainer>
+                    <S.PostTextContainer>
+                      <S.PostTitle>{item.title}</S.PostTitle>
+                      <S.PostContent>{item.content}</S.PostContent>
+                    </S.PostTextContainer>
+                    <S.LikeCommentContainer>
+                      <S.DivideContainer>
+                        <LikeCountIcon />
+                        <S.PostCountText>{item.likes}</S.PostCountText>
+                      </S.DivideContainer>
+                    </S.LikeCommentContainer>
+                  </S.PostContainer>
+                  <S.PostThumbnail src={item.previewImage || Thumbnail} />
+                </S.PostBackground>
+              ))}
           </S.PostPart>
         </S.MainContainer>
         <S.WriteButton onClick={() => setShowModal(true)}>
