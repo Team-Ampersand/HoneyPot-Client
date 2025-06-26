@@ -20,7 +20,8 @@ const Posting = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isComment, setIsComment] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const commentWrite = useRef(null);
   const markdownText = useRef(null);
   const { id } = useParams();
@@ -185,13 +186,19 @@ const Posting = () => {
   };
 
   useEffect(() => {
-    getPost();
+    const fetch = async () => {
+      setIsFirstLoading(true);
+      await getPost();
+      setIsFirstLoading(false);
+    };
+    fetch();
+    // eslint-disable-next-line
   }, [id]);
 
   return (
     <S.Background>
       <Header />
-      {isLoading ? (
+      {isFirstLoading ? (
         <SkeletonPosting />
       ) : (
         <>

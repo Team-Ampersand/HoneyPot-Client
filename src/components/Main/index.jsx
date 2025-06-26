@@ -85,6 +85,29 @@ const Main = () => {
     getPost();
   }, [category]);
 
+  function stripMarkdown(md) {
+    return (
+      md
+        // 헤더, 리스트, 인라인코드, 볼드, 이탤릭, 취소선, 인용문, 구분선 등
+        .replace(/^\\s{0,3}(#{1,6})\\s+/gm, "") // 헤더
+        .replace(/\\*\\*(.*?)\\*\\*/g, "$1") // 볼드
+        .replace(/\\*(.*?)\\*/g, "$1") // 이탤릭
+        .replace(/__(.*?)__/g, "$1") // 볼드(언더바)
+        .replace(/_(.*?)_/g, "$1") // 이탤릭(언더바)
+        .replace(/~~(.*?)~~/g, "$1") // 취소선
+        .replace(/`([^`]+)`/g, "$1") // 인라인 코드
+        .replace(/>\\s?/g, "") // 인용문
+        .replace(/^-\\s+/gm, "") // 리스트
+        .replace(/^\\s*\\d+\\.\\s+/gm, "") // 번호 리스트
+        .replace(/!\\[[^\\]]*\\]\\([^\\)]*\\)/g, "") // 이미지
+        .replace(/\\[[^\\]]*\\]\\([^\\)]*\\)/g, "") // 링크
+        .replace(/\\r?\\n|\\r/g, " ") // 줄바꿈을 공백으로
+        .replace(/\\s{2,}/g, " ") // 여러 공백 하나로
+        .replace(/[*#_`~\\-]/g, "") // 남은 특수문자
+        .trim()
+    );
+  }
+
   return (
     <>
       <Header typing={writingKeyword} search={searchKeyword} />
@@ -142,8 +165,16 @@ const Main = () => {
                       <S.PostAuthorName>{item.author}</S.PostAuthorName>
                     </S.ProfileContainer>
                     <S.PostTextContainer>
-                      <S.PostTitle>{item.title}</S.PostTitle>
-                      <S.PostContent>{item.content}</S.PostContent>
+                      <S.PostTitle>
+                        {stripMarkdown(item.title).length > 40
+                          ? stripMarkdown(item.title).slice(0, 40) + "..."
+                          : stripMarkdown(item.title)}
+                      </S.PostTitle>
+                      <S.PostContent>
+                        {stripMarkdown(item.content).length > 100
+                          ? stripMarkdown(item.content).slice(0, 100) + "..."
+                          : stripMarkdown(item.content)}
+                      </S.PostContent>
                     </S.PostTextContainer>
                     <S.LikeCommentContainer>
                       <S.DivideContainer>

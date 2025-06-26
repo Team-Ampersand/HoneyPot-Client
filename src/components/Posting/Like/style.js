@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const LikeBackgroundContainer = styled.div`
   position: fixed;
   top: 180px;
-  left: 14rem;
+  left: 12rem;
 `;
 
 export const LikeBackground = styled.div`
