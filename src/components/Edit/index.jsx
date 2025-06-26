@@ -77,7 +77,7 @@ const Edit = () => {
       });
       if (response.status === 200 || response.status === 204) {
         toast.success("수정이 완료되었습니다!");
-        navigate("/");
+        navigate("/mypage");
       } else {
         toast.error("게시글 수정 실패");
       }

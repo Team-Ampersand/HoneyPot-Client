@@ -7,7 +7,7 @@ export const Background = styled.div`
   align-items: center;
   overflow-y: auto;
   flex-direction: column;
-  padding: 16px;
+  padding-bottom: 16px;
 `;
 
 export const UserContainer = styled.div`
@@ -175,4 +175,121 @@ export const PostThumbnail = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 20px;
+`;
+
+export const ActionButtonsContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+`;
+
+export const ActionButton = styled.button`
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.edit {
+    background-color: #f0f0f0;
+    color: #333;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+
+  &.delete {
+    background-color: #ffebee;
+    color: #d32f2f;
+
+    &:hover {
+      background-color: #ffcdd2;
+    }
+  }
+`;
+
+export const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+export const Modal = styled.div`
+  background-color: white;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+`;
+
+export const ModalTextContainer = styled.div`
+  text-align: center;
+  margin-bottom: 24px;
+`;
+
+export const ModalTitle = styled.h3`
+  font-family: Pretendard;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 8px 0;
+`;
+
+export const ModalContent = styled.p`
+  font-family: Pretendard;
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+`;
+
+export const ModalButtonContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+`;
+
+export const CancelButton = styled.button`
+  font-family: Pretendard;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+`;
+
+export const CheckButton = styled.button`
+  font-family: Pretendard;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #d32f2f;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #b71c1c;
+  }
 `;

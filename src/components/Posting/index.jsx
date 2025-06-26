@@ -112,26 +112,6 @@ const Posting = () => {
     }
   };
 
-  const deletePosting = async () => {
-    try {
-      await instance
-        .delete(`/post/${id}`)
-        .then((res) => {
-          toast.success("게시글 삭제 성공");
-          navigate("/");
-        })
-        .catch((e) => {});
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        toast.warning("다시 시도해주세요");
-      } else if (error.response && error.response.status === 401) {
-        toast.error("인증에 문제가 발생했습니다.");
-      } else if (error.response && error.response.status === 403) {
-        toast.error("권한이 없습니다.");
-      }
-    }
-  };
-
   const deleteComment = async () => {
     try {
       await instance
@@ -213,9 +193,7 @@ const Posting = () => {
                 </S.ModalTextContainer>
                 <S.ModalButtonContainer>
                   <S.CancelButton onClick={handleModal}>취소</S.CancelButton>
-                  <S.CheckButton
-                    onClick={isComment ? deleteComment : deletePosting}
-                  >
+                  <S.CheckButton onClick={isComment ? deleteComment : null}>
                     확인
                   </S.CheckButton>
                 </S.ModalButtonContainer>
@@ -233,24 +211,6 @@ const Posting = () => {
                 <S.CreationContainer>
                   <S.DivideContainer>
                     <S.CreationText>{posting.author}</S.CreationText>
-                  </S.DivideContainer>
-                  <S.DivideContainer>
-                    <S.FunctionText
-                      onClick={() =>
-                        navigate(`/edit`, {
-                          state: {
-                            title: title,
-                            content: content,
-                            id: id,
-                          },
-                        })
-                      }
-                    >
-                      수정
-                    </S.FunctionText>
-                    <S.FunctionText onClick={() => handleModal("post")}>
-                      삭제
-                    </S.FunctionText>
                   </S.DivideContainer>
                 </S.CreationContainer>
                 <Like
